@@ -11,7 +11,9 @@ import SwiftUI
 struct sharemywayApp: App {
     var body: some Scene {
         WindowGroup {
-            RideView()
+            NavigationView {
+                ContentView()
+            }
         }
     }
 }

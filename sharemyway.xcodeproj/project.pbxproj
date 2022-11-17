@@ -7,18 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A366AA4292542590059CD29 /* Ride.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A366AA3292542590059CD29 /* Ride.swift */; };
+		6A366AA9292544AD0059CD29 /* RideCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A366AA8292544AD0059CD29 /* RideCard.swift */; };
 		6A5964542921466900EE9B52 /* sharemywayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5964532921466900EE9B52 /* sharemywayApp.swift */; };
-		6A5964562921466900EE9B52 /* RideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5964552921466900EE9B52 /* RideView.swift */; };
+		6A5964562921466900EE9B52 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5964552921466900EE9B52 /* ContentView.swift */; };
 		6A5964582921466B00EE9B52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A5964572921466B00EE9B52 /* Assets.xcassets */; };
 		6A59645B2921466B00EE9B52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A59645A2921466B00EE9B52 /* Preview Assets.xcassets */; };
+		6A98E21229262AB000260AB2 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98E21129262AB000260AB2 /* RideDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A366AA3292542590059CD29 /* Ride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ride.swift; sourceTree = "<group>"; };
+		6A366AA8292544AD0059CD29 /* RideCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideCard.swift; sourceTree = "<group>"; };
 		6A5964502921466900EE9B52 /* sharemyway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sharemyway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5964532921466900EE9B52 /* sharemywayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharemywayApp.swift; sourceTree = "<group>"; };
-		6A5964552921466900EE9B52 /* RideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideView.swift; sourceTree = "<group>"; };
+		6A5964552921466900EE9B52 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6A5964572921466B00EE9B52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A59645A2921466B00EE9B52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6A98E21129262AB000260AB2 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +38,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A366AA2292542240059CD29 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6A366AA3292542590059CD29 /* Ride.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6A366AA52925446F0059CD29 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6A366AA8292544AD0059CD29 /* RideCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		6A5964472921466900EE9B52 = {
 			isa = PBXGroup;
 			children = (
@@ -52,7 +74,9 @@
 			isa = PBXGroup;
 			children = (
 				6A5964532921466900EE9B52 /* sharemywayApp.swift */,
-				6A5964552921466900EE9B52 /* RideView.swift */,
+				6A98E2102926247F00260AB2 /* Views */,
+				6A366AA52925446F0059CD29 /* Components */,
+				6A366AA2292542240059CD29 /* Models */,
 				6A5964572921466B00EE9B52 /* Assets.xcassets */,
 				6A5964592921466B00EE9B52 /* Preview Content */,
 			);
@@ -65,6 +89,15 @@
 				6A59645A2921466B00EE9B52 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6A98E2102926247F00260AB2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A5964552921466900EE9B52 /* ContentView.swift */,
+				6A98E21129262AB000260AB2 /* RideDetailView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +170,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A5964562921466900EE9B52 /* RideView.swift in Sources */,
+				6A5964562921466900EE9B52 /* ContentView.swift in Sources */,
+				6A98E21229262AB000260AB2 /* RideDetailView.swift in Sources */,
 				6A5964542921466900EE9B52 /* sharemywayApp.swift in Sources */,
+				6A366AA4292542590059CD29 /* Ride.swift in Sources */,
+				6A366AA9292544AD0059CD29 /* RideCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
