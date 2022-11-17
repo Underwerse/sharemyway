@@ -8,10 +8,12 @@
 import SwiftUI
 
 @main
-struct sharemywayApp: App {
+struct ShareMyWay: App {
     var body: some Scene {
         WindowGroup {
-            RideView()
+            NavigationView {
+                ContentView()
+            }
         }
     }
 }
