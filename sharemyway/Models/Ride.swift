@@ -21,5 +21,11 @@ struct Ride: Identifiable {
 var rideList = [
     Ride(description: "Ride number 1", startPoint: "Espoo, Karaportti 2", finishPoint: "Helsinki, Aleksanterinkatu 1", creatorName: "Mika", creatorAvatar: "driver", date: "11.11.2022", passengers: []),
     Ride(description: "Ride number 2", startPoint: "Vantaa, Vantaankuja 32", finishPoint: "Espoo, Espoonkatu 21", creatorName: "Pekka", creatorAvatar: "driver", date: "21.11.2022", passengers: []),
+    Ride(description: "Ride number 3", startPoint: "Helsinki, Helsinginkatu 5", finishPoint: "Vantaa, Vantaankatu 1 1", creatorName: "Liisa", creatorAvatar: "driver", date: "01.12.2022", passengers: []),
+    Ride(description: "Ride number 1", startPoint: "Espoo, Karaportti 2", finishPoint: "Helsinki, Aleksanterinkatu 1", creatorName: "Mika", creatorAvatar: "driver", date: "11.11.2022", passengers: []),
+    Ride(description: "Ride number 2", startPoint: "Vantaa, Vantaankuja 32", finishPoint: "Espoo, Espoonkatu 21", creatorName: "Pekka", creatorAvatar: "driver", date: "21.11.2022", passengers: []),
+    Ride(description: "Ride number 3", startPoint: "Helsinki, Helsinginkatu 5", finishPoint: "Vantaa, Vantaankatu 1 1", creatorName: "Liisa", creatorAvatar: "driver", date: "01.12.2022", passengers: []),
+    Ride(description: "Ride number 1", startPoint: "Espoo, Karaportti 2", finishPoint: "Helsinki, Aleksanterinkatu 1", creatorName: "Mika", creatorAvatar: "driver", date: "11.11.2022", passengers: []),
+    Ride(description: "Ride number 2", startPoint: "Vantaa, Vantaankuja 32", finishPoint: "Espoo, Espoonkatu 21", creatorName: "Pekka", creatorAvatar: "driver", date: "21.11.2022", passengers: []),
     Ride(description: "Ride number 3", startPoint: "Helsinki, Helsinginkatu 5", finishPoint: "Vantaa, Vantaankatu 1 1", creatorName: "Liisa", creatorAvatar: "driver", date: "01.12.2022", passengers: [])
 ]

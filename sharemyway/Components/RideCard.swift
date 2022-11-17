@@ -66,7 +66,7 @@ struct RideCard: View {
             }
             .padding()
         }
-        .padding()
+        .padding(.horizontal)
     }
 }
 
