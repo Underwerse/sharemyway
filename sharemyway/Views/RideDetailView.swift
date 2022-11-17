@@ -46,6 +46,7 @@ struct RideDetailView: View {
                 .padding(.leading)
             }
         }
+        .navigationTitle("Ride detail")
     }
 }
 

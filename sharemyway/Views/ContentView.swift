@@ -2,16 +2,17 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(rideList, id: \.id) { ride in
-                    NavigationLink(destination: RideDetailView(ride: ride)) {
-                        RideCard(ride: ride)
-                    }
+        TabView {
+            RideListView()
+                .tabItem() {
+                    Label("Rides list", systemImage: "list.bullet.rectangle.fill")
                 }
-            }
+            MapView()
+                .tabItem() {
+                    Label("Rides map", systemImage: "map.fill")
+                }
         }
-        .navigationTitle("ShareMyWay! rides list")
+        .foregroundColor(Color.black)
     }
 }
 
