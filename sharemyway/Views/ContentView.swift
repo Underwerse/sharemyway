@@ -5,15 +5,20 @@ struct ContentView: View {
         ScrollView {
             VStack {
                 ForEach(rideList, id: \.id) { ride in
-                    RideCard(ride: ride)
+                    NavigationLink(destination: RideDetailView(ride: ride)) {
+                        RideCard(ride: ride)
+                    }
                 }
             }
         }
+        .navigationTitle("ShareMyWay! rides list")
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        NavigationView {
+            ContentView()
+        }
     }
 }
