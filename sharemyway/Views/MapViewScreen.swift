@@ -14,9 +14,48 @@ struct MapViewScreen: View {
             MapView()
             // Using it as an environment object to be used then in it's subviews
                 .environmentObject(mapData)
-//                .ignoresSafeArea(.all, edges: .all)
+                .ignoresSafeArea(.all, edges: .top)
             
             VStack {
+                
+                VStack(spacing: 0) {
+                    HStack {
+                        
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.gray)
+                        
+                        TextField("Search", text: $mapData.searchTxt)
+                    }
+                    .padding(.vertical, 10)
+                    .padding(.horizontal)
+                    .background(Color.white.clipShape(RoundedRectangle(cornerRadius:20)))
+                    
+                    // Displaying results
+                    if !mapData.places.isEmpty && mapData.searchTxt != "" {
+                        
+                        ScrollView {
+                            
+                            VStack(spacing: 15) {
+                                
+                                ForEach(mapData.places) { place in
+
+                                    Text(place.place.name ?? "")
+                                        .foregroundColor(.black)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading)
+                                        .onTapGesture {
+                                            mapData.selectPlace(place: place)
+                                        }
+
+                                    Divider()
+                                }
+                            }
+                            .padding(.top)
+                        }
+                        .background(Color.white)
+                    }
+                }
+                .padding()
                 
                 Spacer()
                 
@@ -57,6 +96,19 @@ struct MapViewScreen: View {
                 // Redirecting user to Settings
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }))
+        })
+        .onChange(of: mapData.searchTxt, perform: {value in
+            
+            // Searching place
+            let delay = 0.3
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                if value == mapData.searchTxt {
+                    
+                    // Search
+                    self.mapData.searchQuery()
+                }
+            }
         })
     }
 }
