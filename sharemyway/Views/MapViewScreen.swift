@@ -25,6 +25,14 @@ struct MapViewScreen: View {
                             .foregroundColor(.gray)
                         
                         TextField("Search", text: $mapData.searchTxt)
+                        
+                        if mapData.searchTxt != "" {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                                .onTapGesture {
+                                    mapData.searchTxt = ""
+                                }
+                        }
                     }
                     .padding(.vertical, 10)
                     .padding(.horizontal)
