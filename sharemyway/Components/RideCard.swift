@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RideCard: View {
-    var ride: Ride
+    var ride: RideModel
     
     var body: some View {
         ZStack {

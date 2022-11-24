@@ -7,7 +7,7 @@ struct ContentView: View {
                 .tabItem() {
                     Label("Rides list", systemImage: "list.bullet.rectangle.fill")
                 }
-            MapView()
+            MapViewScreen()
                 .tabItem() {
                     Label("Rides map", systemImage: "map.fill")
                 }
