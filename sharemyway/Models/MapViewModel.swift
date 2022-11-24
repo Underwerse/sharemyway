@@ -82,7 +82,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         mapView.addAnnotation(pointAnnotation)
         
         // Moving map to searched selected place location
-        let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 10000, longitudinalMeters: 10000)
+        let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 3000, longitudinalMeters: 3000)
         
         mapView.setRegion(coordinateRegion, animated: true)
         mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
@@ -119,7 +119,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             return
         }
         
-        self.region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 10000, longitudinalMeters: 10000)
+        self.region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 3000, longitudinalMeters: 3000)
         
         // Updating map
         self.mapView.setRegion(self.region, animated: true)
