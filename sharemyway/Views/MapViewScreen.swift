@@ -15,6 +15,33 @@ struct MapViewScreen: View {
             // Using it as an environment object to be used then in it's subviews
                 .environmentObject(mapData)
 //                .ignoresSafeArea(.all, edges: .all)
+            
+            VStack {
+                
+                Spacer()
+                
+                VStack {
+                    
+                    Button(action: mapData.focusLocation, label: {
+                        Image(systemName: "location.fill")
+                            .font(.title2)
+                        .padding(10)
+                        .background(Color(hue: 1.0, saturation: 0.0, brightness: 1.0, opacity: 0.4))
+                        .clipShape(Circle())
+                    })
+                    
+                    Button(action: mapData.updateMapType, label: {
+                        Image(systemName: mapData.mapType ==
+                            .standard ? "network" : "map")
+                        .font(.title2)
+                        .padding(10)
+                        .background(Color(hue: 1.0, saturation: 0.0, brightness: 1.0, opacity: 0.4))
+                        .clipShape(Circle())
+                    })
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding()
+            }
         }
         .onAppear(perform: {
             

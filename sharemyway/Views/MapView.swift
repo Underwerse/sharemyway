@@ -3,16 +3,6 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
-//    var body: some View {
-//        ZStack {
-//            Color.blue
-//
-//            Image(systemName: "map.fill")
-//                .foregroundColor(Color.white)
-//                .font(.system(size: 100))
-//        }
-//    }
-    
     @EnvironmentObject var mapData: MapViewModel
     
     func makeCoordinator() -> Coordinator {
