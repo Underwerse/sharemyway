@@ -2,7 +2,7 @@
 //  RideListView.swift
 //  sharemyway
 //
-//  Created by iosdev on 17.11.2022.
+//  Created by Pavel Chernov on 17.11.2022.
 //
 
 import SwiftUI

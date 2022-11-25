@@ -2,7 +2,7 @@
 //  RideCard.swift
 //  sharemyway
 //
-//  Created by iosdev on 16.11.2022.
+//  Created by Pavel Chernov on 16.11.2022.
 //
 
 import SwiftUI
