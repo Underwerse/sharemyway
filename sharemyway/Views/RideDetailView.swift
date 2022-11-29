@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RideDetailView: View {
-    var ride: Ride
+    var ride: RideModel
     
     var body: some View {
         HStack(alignment: .top) {
