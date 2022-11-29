@@ -18,6 +18,10 @@ struct ContentView: View {
                 .tabItem() {
                     Label("Rides map", systemImage: "map.fill")
                 }
+            SearchAddressView()
+                .tabItem() {
+                    Label("SearchAddressTemp", systemImage: "magnifyingglass.circle.fill")
+                }
         }
         .foregroundColor(Color.black)
     }
@@ -26,7 +30,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ContentView()
+            MapViewScreen()
         }
     }
 }

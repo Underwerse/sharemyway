@@ -17,6 +17,7 @@ struct RideListView: View {
                     }
                 }
             }
+            .background(.white)
         }
         .navigationTitle("ShareMyWay! rides list")
     }

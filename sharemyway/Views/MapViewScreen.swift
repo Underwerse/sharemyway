@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import MapKit
 
 struct MapViewScreen: View {
     
@@ -15,6 +16,7 @@ struct MapViewScreen: View {
     @State var locationManager = CLLocationManager()
     
     var body: some View {
+        
         ZStack {
             
             // MapView
@@ -43,7 +45,7 @@ struct MapViewScreen: View {
                     }
                     .padding(.vertical, 10)
                     .padding(.horizontal)
-                    .background(Color.white.clipShape(RoundedRectangle(cornerRadius:20)))
+                    .background(Color.white.clipShape(RoundedRectangle(cornerRadius:10)))
                     
                     // Displaying results
                     if !mapData.places.isEmpty && mapData.searchTxt != "" {
@@ -133,3 +135,4 @@ struct MapViewScreen_Previews: PreviewProvider {
         MapViewScreen()
     }
 }
+

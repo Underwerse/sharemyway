@@ -14,7 +14,7 @@ struct RideCard: View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
                 .frame(height: 150)
-                .foregroundColor(Color(hue: 0.635, saturation: 0.143, brightness: 1.0))
+                .foregroundColor(Color("CardBgrColor"))
                 .shadow(color: .gray, radius: 5, x: 5, y: 5)
             HStack(alignment: .top) {
                 HStack(alignment: .top) {
@@ -66,6 +66,7 @@ struct RideCard: View {
             }
             .padding()
         }
+        .foregroundColor(.white)
         .padding(.horizontal)
     }
 }
