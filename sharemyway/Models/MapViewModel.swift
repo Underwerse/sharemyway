@@ -1,3 +1,10 @@
+//
+//  MapViewModel.swift
+//  sharemyway
+//
+//  Created by Pavel Chernov on 16.11.2022.
+//
+
 import SwiftUI
 import MapKit
 import CoreLocation
@@ -29,11 +36,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         if mapType == .standard {
             mapType = .hybrid
-            mapView.mapType = mapType
         } else {
             mapType = .standard
-            mapView.mapType = mapType
         }
+        mapView.mapType = mapType
     }
     
     // Focus location
@@ -115,6 +121,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     // Getting user region
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         guard let location = locations.last else {
             return
         }
