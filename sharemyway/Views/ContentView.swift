@@ -1,3 +1,10 @@
+//
+//  ContentView.swift
+//  sharemyway
+//
+//  Created by Pavel Chernov on 16.11.2022.
+//
+
 import SwiftUI
 
 struct ContentView: View {
@@ -11,6 +18,10 @@ struct ContentView: View {
                 .tabItem() {
                     Label("Rides map", systemImage: "map.fill")
                 }
+            SearchAddressView()
+                .tabItem() {
+                    Label("SearchAddressTemp", systemImage: "magnifyingglass.circle.fill")
+                }
         }
         .foregroundColor(Color.black)
     }
@@ -19,7 +30,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ContentView()
+            MapViewScreen()
         }
     }
 }

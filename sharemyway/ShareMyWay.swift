@@ -2,7 +2,7 @@
 //  sharemywayApp.swift
 //  sharemyway
 //
-//  Created by iosdev on 13.11.2022.
+//  Created by Pavel Chernov on 13.11.2022.
 //
 
 import SwiftUI
