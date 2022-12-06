@@ -9,17 +9,17 @@ import SwiftUI
 import MapKit
 
 struct SearchAddressView: View {
-    
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var locationManager: LocationManager = .init()
     
-    // Mark: Navigation tag to pish View to MapView
+    // Mark: Navigation tag to push View to MapView
     @State var navigationTag: String?
     
     var body: some View {
         VStack {
             HStack(spacing: 15) {
                 Button {
-                    
+                    self.presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.title3)
@@ -31,6 +31,7 @@ struct SearchAddressView: View {
                     .fontWeight(.semibold)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundColor(.black)
             
             HStack {
                 
@@ -38,13 +39,25 @@ struct SearchAddressView: View {
                     .foregroundColor(.gray)
                 
                 TextField("Find location here", text: $locationManager.searchText)
+                
+                if locationManager.searchText != "" {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                        .onTapGesture {
+                            locationManager.searchText = ""
+                        }
+                }
             }
+            .foregroundColor(.black)
             .padding(.vertical, 10)
             .padding(.horizontal)
             .background{
                 RoundedRectangle(cornerRadius:10, style: .continuous)
                     .strokeBorder(.gray)
+                    .foregroundColor(.black)
+                    .background(Color.white)
             }
+            .background(Color.white)
             .padding(.vertical, 10)
             
             if let places = locationManager.fetchedPlaces, !places.isEmpty {
@@ -82,6 +95,7 @@ struct SearchAddressView: View {
                     }
                 }
                 .listStyle(.plain)
+                .frame(maxWidth: .infinity, maxHeight: 400)
             } else {
                 // Mark: Live location button
                 Button {
@@ -104,6 +118,8 @@ struct SearchAddressView: View {
                         Image(systemName: "location.north.circle.fill")
                     }
                     .foregroundColor(.green)
+                    .background(Color.white)
+                    .padding()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -111,13 +127,9 @@ struct SearchAddressView: View {
         .padding()
         .frame(maxHeight: .infinity, alignment: .top)
         .background {
-            NavigationLink(tag: "MAPVIEW", selection: $navigationTag) {
-                MapViewSelection()
-                    .environmentObject(locationManager)
-                    .navigationBarHidden(true)
-            } label: {
-            }
-            .labelsHidden()
+            MapViewSelection()
+                .environmentObject(locationManager)
+                .navigationBarHidden(true)
         }
     }
 }
@@ -132,6 +144,7 @@ struct SearchAddressView_Previews: PreviewProvider {
 struct MapViewSelection: View {
     @EnvironmentObject var locationManager: LocationManager
     @Environment(\.dismiss) var dismiss
+    @Environment(\.presentationMode) var presentationMode
     
     @State var startPointConfirmed = false
     @State var destinationPointConfirmed = false
@@ -146,7 +159,7 @@ struct MapViewSelection: View {
                 .ignoresSafeArea()
             
             Button {
-                dismiss()
+                self.presentationMode.wrappedValue.dismiss()
             } label: {
                 Image(systemName: "chevron.left")
                     .font(.title2.bold())
@@ -161,17 +174,20 @@ struct MapViewSelection: View {
                 VStack(spacing: 15){
                     Text("Confirm address")
                         .font(.title2.bold())
+                        .foregroundColor(.black)
                     
                     HStack(spacing: 15) {
                         Image(systemName: "mappin.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(.gray)
+                            .font(.title)
+                            .foregroundColor(.red)
                         
                         VStack(alignment: .leading, spacing: 6) {
                             Text(place.name ?? "")
+                                .font(.title2)
+                                .foregroundColor(.gray)
                             
                             Text(place.locality ?? "")
-                                .font(.caption)
+                                .font(.title2)
                                 .foregroundColor(.gray)
                         }
                     }
@@ -186,6 +202,8 @@ struct MapViewSelection: View {
                         guard let ADDRESS = place.name else {return}
                         print("Full address: \(ADDRESS)")
                         startPointConfirmed = true
+                        
+                        self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text(
                             !startPointConfirmed ?
