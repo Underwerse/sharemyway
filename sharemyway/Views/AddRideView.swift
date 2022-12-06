@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AddRideView: View {
-    static let DefaultRideTitle = "New Ride"
-    static let DefaultRideStartPoint = "Espoo, Karaportti, 2"
-    static let DefaultRideDestinationPoint = "Espoo, Helsinki, Aleksanterinkatu, 1"
+//    static let DefaultRideTitle = "New Ride"
+//    static let DefaultRideStartPoint = "Espoo, Karaportti, 2"
+//    static let DefaultRideDestinationPoint = "Espoo, Helsinki, Aleksanterinkatu, 1"
     
-    @State var title = ""
+    @State var btnLabel = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
     @State var creationDate = Date()
@@ -22,12 +22,15 @@ struct AddRideView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                VStack {
+                VStack(alignment: .leading) {
+                    Text("Create new ride")
+                        .font(.largeTitle)
                     Button("Pick start point") {
                         self.isModal.toggle()
+                        self.btnLabel = "start"
                     }
                     .sheet(isPresented: $isModal) {
-                        SearchAddressView()
+                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
                     }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
@@ -42,14 +45,21 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
-                    Text("Start point: \(startPoint)")
+                    HStack {
+                        Text("From: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                            .padding()
+                        Text(startPoint)
+                    }
                 }
-                VStack {
+                VStack(alignment: .leading) {
                     Button("Pick destination point") {
                         self.isModal.toggle()
+                        self.btnLabel = "destination"
                     }
                     .sheet(isPresented: $isModal) {
-                        SearchAddressView()
+                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
                     }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
@@ -64,18 +74,41 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
-                    Text("Destination point: \(destinationPoint)")
+                    HStack {
+                        Text("To: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                            .padding()
+                        Text(destinationPoint)
+                    }
                 }
                 VStack(alignment: .leading) {
                     DatePicker(
                         selection: $creationDate,
                         displayedComponents: .date) {
-                            Text("Ride date").foregroundColor(Color(.gray))
+                            Text("Ride date")
+                                .font(.title3.bold())
+                                .multilineTextAlignment(.leading)
                         }
                         .padding()
                     Spacer()
                 }
+                Spacer()
+                Button {
+                    
+                } label: {
+                    Text("Add ride")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.green)
+                        }
+                        .foregroundColor(.white)
+                }
             }
+            .padding()
             
             
             

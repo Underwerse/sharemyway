@@ -2,7 +2,7 @@
 //  SearchAddressView.swift
 //  sharemyway
 //
-//  Created by iosdev on 29.11.2022.
+//  Created by Pavel Chernov on 3.12.2022.
 //
 
 import SwiftUI
@@ -14,6 +14,10 @@ struct SearchAddressView: View {
     
     // Mark: Navigation tag to push View to MapView
     @State var navigationTag: String?
+    
+    @Binding var startPoint: String
+    @Binding var destinationPoint: String
+    @Binding var btnLabel: String
     
     var body: some View {
         VStack {
@@ -127,18 +131,18 @@ struct SearchAddressView: View {
         .padding()
         .frame(maxHeight: .infinity, alignment: .top)
         .background {
-            MapViewSelection()
+            MapViewSelection(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
                 .environmentObject(locationManager)
                 .navigationBarHidden(true)
         }
     }
 }
 
-struct SearchAddressView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchAddressView()
-    }
-}
+//struct SearchAddressView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SearchAddressView()
+//    }
+//}
 
 // Mark: MapView live selection
 struct MapViewSelection: View {
@@ -148,8 +152,9 @@ struct MapViewSelection: View {
     
     @State var startPointConfirmed = false
     @State var destinationPointConfirmed = false
-    @State var startPoint = ""
-    @State var destinationPoint = ""
+    @Binding var startPoint: String
+    @Binding var destinationPoint: String
+    @Binding var btnLabel: String
     var btnConfirmText = ""
     
     var body: some View {
@@ -199,10 +204,16 @@ struct MapViewSelection: View {
                         print("LAT: \(LAT)")
                         guard let LON = place.location?.coordinate.longitude else {return}
                         print("LON: \(LON)")
+                        guard let LOCALITY = place.locality else {return}
                         guard let ADDRESS = place.name else {return}
-                        print("Full address: \(ADDRESS)")
-                        startPointConfirmed = true
+                                                
+                        if btnLabel == "start" {
+                            startPoint = LOCALITY + ", " + ADDRESS
+                        } else {
+                            destinationPoint = LOCALITY + ", " + ADDRESS
+                        }
                         
+                        startPointConfirmed.toggle()
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text(
