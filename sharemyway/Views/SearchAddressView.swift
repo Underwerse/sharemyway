@@ -133,6 +133,12 @@ struct MapViewSelection: View {
     @EnvironmentObject var locationManager: LocationManager
     @Environment(\.dismiss) var dismiss
     
+    @State var startPointConfirmed = false
+    @State var destinationPointConfirmed = false
+    @State var startPoint = ""
+    @State var destinationPoint = ""
+    var btnConfirmText = ""
+    
     var body: some View {
         ZStack {
             MapViewHelper()
@@ -173,9 +179,19 @@ struct MapViewSelection: View {
                     .padding(.vertical, 10)
                     
                     Button {
-                        
+                        guard let LAT = place.location?.coordinate.latitude else {return}
+                        print("LAT: \(LAT)")
+                        guard let LON = place.location?.coordinate.longitude else {return}
+                        print("LON: \(LON)")
+                        guard let ADDRESS = place.name else {return}
+                        print("Full address: \(ADDRESS)")
+                        startPointConfirmed = true
                     } label: {
-                        Text("Confirm address")
+                        Text(
+                            !startPointConfirmed ?
+                                "Confirm start point" :
+                                "Confirm destination point"
+                        )
                             .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
