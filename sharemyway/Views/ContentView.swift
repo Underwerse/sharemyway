@@ -18,9 +18,13 @@ struct ContentView: View {
                 .tabItem() {
                     Label("Rides map", systemImage: "map.fill")
                 }
-            SearchAddressView()
+//            SearchAddressView()
+//                .tabItem() {
+//                    Label("SearchAddressTemp", systemImage: "magnifyingglass.circle.fill")
+//                }
+            AddRideView()
                 .tabItem() {
-                    Label("SearchAddressTemp", systemImage: "magnifyingglass.circle.fill")
+                    Label("Add ride", systemImage: "plus.app.fill")
                 }
         }
         .foregroundColor(Color.black)

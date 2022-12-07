@@ -8,12 +8,19 @@
 import SwiftUI
 import CoreLocation
 import MapKit
+import Firebase
 
 struct MapViewScreen: View {
     
     @StateObject var mapData = MapViewModel()
     // Location manager
     @State var locationManager = CLLocationManager()
+    // Start point address
+//    @State var start
+    // Set marker to the map and sent to Firebase trigger
+    @State var setRoute = false
+    // Doc for Firebase
+    @State var doc = ""
     
     var body: some View {
         
