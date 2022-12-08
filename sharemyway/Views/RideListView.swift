@@ -39,7 +39,19 @@ struct RideListView: View {
     }
     
     private func deleteRide(offsets: IndexSet) {
-        
+        withAnimation {
+            offsets.map { rides[$0] }.forEach(managedObjectContext.delete)
+            
+            saveContext()
+        }
+    }
+    
+    func saveContext() {
+      do {
+        try managedObjectContext.save()
+      } catch {
+        print("Error saving managed object context: \(error)")
+      }
     }
 }
 

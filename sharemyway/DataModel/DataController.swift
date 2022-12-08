@@ -10,7 +10,7 @@ import CoreData
 import MapKit
 
 class DataController: ObservableObject {
-    var container = NSPersistentContainer(name: "RideModel")
+    let container = NSPersistentContainer(name: "RideModel")
     
     init() {
         container.loadPersistentStores { desc, error in
@@ -47,7 +47,7 @@ class DataController: ObservableObject {
         ride.destinationPointCoordLon = destinationPointCoordLon
         ride.rideDate = rideDate
         ride.creationDate = creationDate
+        
+        save(context: context)
     }
-    
-    
 }

@@ -15,12 +15,23 @@ struct AddRideView: View {
     // Working with fetching Core Data
     @FetchRequest(sortDescriptors: [SortDescriptor(\.creationDate, order: .reverse)]) var ride: FetchedResults<Ride>
     
+    //    static let defaultRideTitle = "Default ride"
+    //    static let defaultDriverName = "Default name"
+    //    static let defaultStartPoint = "Espoo"
+    //    static let defaultDestinationPoint = "Helsinki"
+    //    static let defaultStartPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
+    //    static let defaultDestinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
+    //    static let defaultRideDate = Date()
+    //
+    //    let onComplete: (String, String, String, String, String, Double, Double, Double, Double, Date, Date) -> Void
+    
+    
     // Variable for closing the view
     @Environment(\.dismiss) var dismiss
     
     @State var btnLabel = ""
-    @State var rideTitle = ""
-    @State var driverName = ""
+    @State var title = ""
+    @State var driver = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
     @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
@@ -29,7 +40,7 @@ struct AddRideView: View {
     @State var isModal = false
     
     // TabView selection var
-//    @Binding var tabSelection: Int
+    //    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationView {
@@ -37,24 +48,19 @@ struct AddRideView: View {
                 Text("Create new ride")
                     .font(.largeTitle)
                     .padding()
-                //                    Text(NSUserName() + UIDevice.current.identifierForVendor!.uuidString)
-                //                        .font(.title)
-                //                        .padding(.bottom)
-                
+                HStack {
+                    Text("Ride title: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                    TextField("Ride title", text: $title)
+                }
+                HStack {
+                    Text("Driver name: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                    TextField("Driver name", text: $driver)
+                }
                 VStack(alignment: .leading) {
-                    
-                    HStack {
-                        Text("Ride title: ")
-                            .font(.title3.bold())
-                            .multilineTextAlignment(.leading)
-                        TextField("Ride title", text: $rideTitle)
-                    }
-                    HStack {
-                        Text("Driver name: ")
-                            .font(.title3.bold())
-                            .multilineTextAlignment(.leading)
-                        TextField("Driver name", text: $driverName)
-                    }
                     Button("Pick start point") {
                         self.isModal.toggle()
                         self.btnLabel = "start"
@@ -75,14 +81,13 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
-                    
-                    HStack {
-                        Text("From: ")
-                            .font(.title3.bold())
-                            .multilineTextAlignment(.leading)
-                            .padding()
-                        Text(startPoint)
-                    }
+                }
+                HStack {
+                    Text("From: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                        .padding()
+                    Text(startPoint)
                 }
                 VStack(alignment: .leading) {
                     Button("Pick destination point") {
@@ -105,14 +110,13 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
-                    
-                    HStack {
-                        Text("To: ")
-                            .font(.title3.bold())
-                            .multilineTextAlignment(.leading)
-                            .padding()
-                        Text(destinationPoint)
-                    }
+                }
+                HStack {
+                    Text("To: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                        .padding()
+                    Text(destinationPoint)
                 }
                 VStack(alignment: .leading) {
                     DatePicker(
@@ -128,7 +132,7 @@ struct AddRideView: View {
                 Spacer()
                 Button {
                     addRideAction()
-//                    tabSelection = 2
+                    //                    tabSelection = 2
                 } label: {
                     Text("Add ride")
                         .fontWeight(.semibold)
@@ -149,7 +153,23 @@ struct AddRideView: View {
         print("Source coord: \(startPointCoord)")
         print("Destination coord: \(destinationPointCoord)")
         
-        DataController().addRide(title: rideTitle, driver: driverName, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
+        DataController().addRide(title: title, driver: driver, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
+        
+        //        onComplete(
+        //            title.isEmpty ? AddRideView.defaultRideTitle : title,
+        //            driver.isEmpty ? AddRideView.defaultDriverName : driver,
+        //            startPoint,
+        //            destinationPoint,
+        //            "driver",
+        //            startPointCoord.latitude,
+        //            startPointCoord.longitude,
+        //            destinationPointCoord.latitude,
+        //            destinationPointCoord.longitude,
+        //            rideDate,
+        //            Date()
+        //        )
+        
+        
     }
 }
 
