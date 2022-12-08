@@ -26,7 +26,7 @@ struct RideCard: View {
                         HStack(alignment: .top) {
                             Text("Driver:")
                                 .bold()
-                            Text("\(ride.creatorName)")
+                            Text("\(ride.driver)")
                                 
                         }
                         .padding(.bottom, 1)
@@ -39,13 +39,13 @@ struct RideCard: View {
                         HStack(alignment: .top) {
                             Text("To:")
                                 .bold()
-                            Text("\(ride.finishPoint)")
+                            Text("\(ride.destinationPoint)")
                         }
                         .padding(.bottom, 1)
                         HStack {
                             Text("Description:")
                                 .bold()
-                            Text("\(ride.description)")
+                            Text("\(ride.title)")
                         }
                     }
                     .padding(.leading)

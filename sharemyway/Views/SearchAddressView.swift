@@ -17,6 +17,8 @@ struct SearchAddressView: View {
     
     @Binding var startPoint: String
     @Binding var destinationPoint: String
+    @Binding var startPointCoord: CLLocationCoordinate2D
+    @Binding var destinationPointCoord: CLLocationCoordinate2D
     @Binding var btnLabel: String
     
     var body: some View {
@@ -75,9 +77,6 @@ struct SearchAddressView: View {
                                 locationManager.addDraggablePin(coordinate: coordinate)
                                 locationManager.updatePlacemark(location: .init(latitude: coordinate.latitude, longitude: coordinate.longitude))
                             }
-                            
-                            // Navigation to MapView
-                            navigationTag = "MAPVIEW"
                         } label: {
                             HStack(spacing: 15) {
                                 Image(systemName: "mappin.circle.fill")
@@ -110,9 +109,6 @@ struct SearchAddressView: View {
                         
                         locationManager.addDraggablePin(coordinate: coordinate)
                         locationManager.updatePlacemark(location: .init(latitude: coordinate.latitude, longitude: coordinate.longitude))
-                        
-                        // Navigation to MapView
-                        navigationTag = "MAPVIEW"
                     }
                 } label: {
                     Label {
@@ -131,7 +127,7 @@ struct SearchAddressView: View {
         .padding()
         .frame(maxHeight: .infinity, alignment: .top)
         .background {
-            MapViewSelection(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
+            MapViewSelection(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
                 .environmentObject(locationManager)
                 .navigationBarHidden(true)
         }
@@ -154,6 +150,9 @@ struct MapViewSelection: View {
     @State var destinationPointConfirmed = false
     @Binding var startPoint: String
     @Binding var destinationPoint: String
+    @Binding var startPointCoord: CLLocationCoordinate2D
+    @Binding var destinationPointCoord: CLLocationCoordinate2D
+    
     @Binding var btnLabel: String
     var btnConfirmText = ""
     
@@ -209,8 +208,10 @@ struct MapViewSelection: View {
                                                 
                         if btnLabel == "start" {
                             startPoint = LOCALITY + ", " + ADDRESS
+                            startPointCoord = place.location!.coordinate
                         } else {
                             destinationPoint = LOCALITY + ", " + ADDRESS
+                            destinationPointCoord = place.location!.coordinate
                         }
                         
                         startPointConfirmed.toggle()

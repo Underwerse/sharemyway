@@ -6,17 +6,16 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct AddRideView: View {
-//    static let DefaultRideTitle = "New Ride"
-//    static let DefaultRideStartPoint = "Espoo, Karaportti, 2"
-//    static let DefaultRideDestinationPoint = "Espoo, Helsinki, Aleksanterinkatu, 1"
     
     @State var btnLabel = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
-    @State var creationDate = Date()
-    //    let onComplete: (String, String, String, Date) -> Void
+    @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
+    @State var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
+    @State var rideDate = Date()
     @State var isModal = false
     
     var body: some View {
@@ -28,9 +27,6 @@ struct AddRideView: View {
                     Button("Pick start point") {
                         self.isModal.toggle()
                         self.btnLabel = "start"
-                    }
-                    .sheet(isPresented: $isModal) {
-                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
                     }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
@@ -58,9 +54,6 @@ struct AddRideView: View {
                         self.isModal.toggle()
                         self.btnLabel = "destination"
                     }
-                    .sheet(isPresented: $isModal) {
-                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
-                    }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
                     .padding(.vertical, 12)
@@ -84,7 +77,7 @@ struct AddRideView: View {
                 }
                 VStack(alignment: .leading) {
                     DatePicker(
-                        selection: $creationDate,
+                        selection: $rideDate,
                         displayedComponents: .date) {
                             Text("Ride date")
                                 .font(.title3.bold())
@@ -95,7 +88,7 @@ struct AddRideView: View {
                 }
                 Spacer()
                 Button {
-                    
+                    addRideAction()
                 } label: {
                     Text("Add ride")
                         .fontWeight(.semibold)
@@ -106,6 +99,9 @@ struct AddRideView: View {
                                 .fill(.green)
                         }
                         .foregroundColor(.white)
+                }
+                .sheet(isPresented: $isModal) {
+                    SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
                 }
             }
             .padding()
@@ -146,6 +142,8 @@ struct AddRideView: View {
     }
     
     private func addRideAction() {
+        print("Source coord: \(startPointCoord)")
+        print("Destination coord: \(destinationPointCoord)")
         //        onComplete(
         //            title.isEmpty ? AddRideView.DefaultRideTitle : title,
         //            startPoint.isEmpty ? AddRideView.DefaultRideStartPoint : startPoint,
@@ -155,8 +153,8 @@ struct AddRideView: View {
     }
 }
 
-struct AddRide_Previews: PreviewProvider {
-    static var previews: some View {
-        AddRideView()
-    }
-}
+//struct AddRide_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddRideView()
+//    }
+//}
