@@ -10,7 +10,7 @@ import CoreData
 import MapKit
 
 class DataController: ObservableObject {
-    let container = NSPersistentContainer(name: "RideModel")
+    var container = NSPersistentContainer(name: "RideModel")
     
     init() {
         container.loadPersistentStores { desc, error in
@@ -33,6 +33,8 @@ class DataController: ObservableObject {
         
         let ride = Ride(context: context)
         
+        print("ride date to add: \(rideDate)")
+        
         ride.id = UUID()
         ride.title = title
         ride.driver = driver
@@ -46,4 +48,6 @@ class DataController: ObservableObject {
         ride.rideDate = rideDate
         ride.creationDate = creationDate
     }
+    
+    
 }

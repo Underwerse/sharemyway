@@ -11,10 +11,11 @@ import CoreData
 struct ContentView: View {
     
     // Set TabView var for transitions
-    @State private var tabSelection = 1
+//    @State private var tabSelection = 1
     
     var body: some View {
-        TabView(selection: $tabSelection) {
+//        TabView(selection: $tabSelection) {
+        TabView() {
             RideListView()
                 .tabItem() {
                     Label("Rides list", systemImage: "list.bullet.rectangle.fill")
@@ -23,7 +24,8 @@ struct ContentView: View {
                 .tabItem() {
                     Label("Rides map", systemImage: "map.fill")
                 }
-            AddRideView(tabSelection: $tabSelection)
+//            AddRideView(tabSelection: $tabSelection)
+            AddRideView()
                 .tabItem() {
                     Label("Add ride", systemImage: "plus.app.fill")
                 }

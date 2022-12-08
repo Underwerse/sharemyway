@@ -29,7 +29,7 @@ struct AddRideView: View {
     @State var isModal = false
     
     // TabView selection var
-    @Binding var tabSelection: Int
+//    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationView {
@@ -59,6 +59,9 @@ struct AddRideView: View {
                         self.isModal.toggle()
                         self.btnLabel = "start"
                     }
+                    .sheet(isPresented: $isModal) {
+                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
+                    }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
                     .padding(.vertical, 12)
@@ -72,6 +75,7 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
+                    
                     HStack {
                         Text("From: ")
                             .font(.title3.bold())
@@ -85,6 +89,9 @@ struct AddRideView: View {
                         self.isModal.toggle()
                         self.btnLabel = "destination"
                     }
+                    .sheet(isPresented: $isModal) {
+                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
+                    }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
                     .padding(.vertical, 12)
@@ -98,6 +105,7 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
+                    
                     HStack {
                         Text("To: ")
                             .font(.title3.bold())
@@ -120,7 +128,7 @@ struct AddRideView: View {
                 Spacer()
                 Button {
                     addRideAction()
-                    tabSelection = 2
+//                    tabSelection = 2
                 } label: {
                     Text("Add ride")
                         .fontWeight(.semibold)
@@ -132,9 +140,7 @@ struct AddRideView: View {
                         }
                         .foregroundColor(.white)
                 }
-                .sheet(isPresented: $isModal) {
-                    SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
-                }
+                
             }
         }
     }
