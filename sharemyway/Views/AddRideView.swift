@@ -11,6 +11,8 @@ import MapKit
 struct AddRideView: View {
     
     @State var btnLabel = ""
+    @State var rideTitle = ""
+    @State var driverName = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
     @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
@@ -24,6 +26,22 @@ struct AddRideView: View {
                 VStack(alignment: .leading) {
                     Text("Create new ride")
                         .font(.largeTitle)
+                        .padding(.bottom)
+//                    Text(NSUserName() + UIDevice.current.identifierForVendor!.uuidString)
+//                        .font(.title)
+//                        .padding(.bottom)
+                    HStack {
+                        Text("Ride title: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        TextField("Ride title", text: $rideTitle)
+                    }
+                    HStack {
+                        Text("Driver name: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        TextField("Driver name", text: $driverName)
+                    }
                     Button("Pick start point") {
                         self.isModal.toggle()
                         self.btnLabel = "start"
@@ -144,6 +162,21 @@ struct AddRideView: View {
     private func addRideAction() {
         print("Source coord: \(startPointCoord)")
         print("Destination coord: \(destinationPointCoord)")
+        
+        rideList.append(
+            RideModel(
+                title: rideTitle,
+                startPoint: startPoint,
+                destinationPoint: destinationPoint,
+                startPointCoord: startPointCoord,
+                destinationPointCoord: destinationPointCoord,
+                rideDate: rideDate,
+                driver: driverName,
+                creatorAvatar: "avatar",
+                creationDate: Date()
+            )
+        )
+        
         //        onComplete(
         //            title.isEmpty ? AddRideView.DefaultRideTitle : title,
         //            startPoint.isEmpty ? AddRideView.DefaultRideStartPoint : startPoint,

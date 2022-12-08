@@ -15,12 +15,13 @@ struct RideModel: Identifiable {
     var destinationPoint: String
     var startPointCoord: CLLocationCoordinate2D
     var destinationPointCoord: CLLocationCoordinate2D
-    var rideDate: String
-    var driver: String = NSFullUserName()
+    var rideDate: Date
+    var driver: String
     var creatorAvatar: String
-    var creationDate: String
+    var creationDate: Date
 }
 
-var rideList = [RideModel(title: "Ride number 1", startPoint: "Espoo, Karaportti 2", destinationPoint: "Helsinki, Aleksanterinkatu 1", startPointCoord: CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826), destinationPointCoord: CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826), rideDate: "14.12.2022", driver: NSFullUserName(), creatorAvatar: "driver", creationDate: "08.12.2022")
-]
+//var rideList = [RideModel(title: "Ride number 1", startPoint: "Espoo, Karaportti 2", destinationPoint: "Helsinki, Aleksanterinkatu 1", startPointCoord: CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826), destinationPointCoord: CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826), rideDate: "14.12.2022", driver: NSFullUserName(), creatorAvatar: "driver", creationDate: "08.12.2022")
+//]
 
+var rideList: [RideModel] = []
