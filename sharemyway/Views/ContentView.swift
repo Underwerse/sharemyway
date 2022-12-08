@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
+    
+    // Set TabView var for transitions
+    @State private var tabSelection = 1
+    
     var body: some View {
-        TabView {
+        TabView(selection: $tabSelection) {
             RideListView()
                 .tabItem() {
                     Label("Rides list", systemImage: "list.bullet.rectangle.fill")
@@ -18,17 +23,14 @@ struct ContentView: View {
                 .tabItem() {
                     Label("Rides map", systemImage: "map.fill")
                 }
-//            SearchAddressView()
-//                .tabItem() {
-//                    Label("SearchAddressTemp", systemImage: "magnifyingglass.circle.fill")
-//                }
-            AddRideView()
+            AddRideView(tabSelection: $tabSelection)
                 .tabItem() {
                     Label("Add ride", systemImage: "plus.app.fill")
                 }
         }
         .foregroundColor(Color.black)
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

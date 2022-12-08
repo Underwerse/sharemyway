@@ -11,11 +11,11 @@ struct RideListView: View {
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(rideList, id: \.id) { ride in
-                    NavigationLink(destination: RideDetailView(ride: ride)) {
-                        RideCard(ride: ride)
-                    }
-                }
+//                ForEach(rideList, id: \.id) { ride in
+//                    NavigationLink(destination: RideDetailView(ride: ride)) {
+//                        RideCard(ride: ride)
+//                    }
+//                }
             }
             .background(.white)
         }

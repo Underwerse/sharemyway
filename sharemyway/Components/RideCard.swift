@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RideCard: View {
-    var ride: RideModel
+    var ride: Ride
     
     var body: some View {
         ZStack {
@@ -18,7 +18,7 @@ struct RideCard: View {
                 .shadow(color: .gray, radius: 5, x: 5, y: 5)
             HStack(alignment: .top) {
                 HStack(alignment: .top) {
-                    Image(ride.creatorAvatar)
+                    Image(ride.creatorAvatar!)
                         .resizable()
                         .cornerRadius(20)
                         .frame(width: 50, height: 50)
@@ -26,26 +26,26 @@ struct RideCard: View {
                         HStack(alignment: .top) {
                             Text("Driver:")
                                 .bold()
-                            Text("\(ride.driver)")
+//                            Text("\(ride.driver)")
                                 
                         }
                         .padding(.bottom, 1)
                         HStack(alignment: .top) {
                             Text("From:")
                                 .bold()
-                            Text("\(ride.startPoint)")
+//                            Text("\(ride.startPoint)")
                         }
                         .padding(.bottom, 1)
                         HStack(alignment: .top) {
                             Text("To:")
                                 .bold()
-                            Text("\(ride.destinationPoint)")
+//                            Text("\(ride.destinationPoint)")
                         }
                         .padding(.bottom, 1)
                         HStack {
                             Text("Description:")
                                 .bold()
-                            Text("\(ride.title)")
+//                            Text("\(ride.title)")
                         }
                     }
                     .padding(.leading)
@@ -71,8 +71,8 @@ struct RideCard: View {
     }
 }
 
-struct RideCard_Previews: PreviewProvider {
-    static var previews: some View {
-        RideCard(ride: rideList[0])
-    }
-}
+//struct RideCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RideCard(ride: rideList[0])
+//    }
+//}

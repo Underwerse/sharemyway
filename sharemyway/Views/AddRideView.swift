@@ -10,6 +10,14 @@ import MapKit
 
 struct AddRideView: View {
     
+    // Core Data object
+    @Environment(\.managedObjectContext) var managedObjectContext
+    // Working with fetching Core Data
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.creationDate, order: .reverse)]) var ride: FetchedResults<Ride>
+    
+    // Variable for closing the view
+    @Environment(\.dismiss) var dismiss
+    
     @State var btnLabel = ""
     @State var rideTitle = ""
     @State var driverName = ""
@@ -20,16 +28,21 @@ struct AddRideView: View {
     @State var rideDate = Date()
     @State var isModal = false
     
+    // TabView selection var
+    @Binding var tabSelection: Int
+    
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
+            Form {
+                Text("Create new ride")
+                    .font(.largeTitle)
+                    .padding()
+                //                    Text(NSUserName() + UIDevice.current.identifierForVendor!.uuidString)
+                //                        .font(.title)
+                //                        .padding(.bottom)
+                
                 VStack(alignment: .leading) {
-                    Text("Create new ride")
-                        .font(.largeTitle)
-                        .padding(.bottom)
-//                    Text(NSUserName() + UIDevice.current.identifierForVendor!.uuidString)
-//                        .font(.title)
-//                        .padding(.bottom)
+                    
                     HStack {
                         Text("Ride title: ")
                             .font(.title3.bold())
@@ -107,6 +120,7 @@ struct AddRideView: View {
                 Spacer()
                 Button {
                     addRideAction()
+                    tabSelection = 2
                 } label: {
                     Text("Add ride")
                         .fontWeight(.semibold)
@@ -122,40 +136,6 @@ struct AddRideView: View {
                     SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
                 }
             }
-            .padding()
-            
-            
-            
-            //            Form {
-            //                Section(header: Text("Title")) {
-            //                    TextField("Title", text: $title)
-            //                }
-            //                Section(header: Text("Start point")) {
-            //                    Button("Pick start point") {
-            //                        self.isModal.toggle()
-            //                    }
-            //                    .sheet(isPresented: $isModal) {
-            //                        MapViewSelection()
-            //                    }
-            //                    Text("Start point: \($startPoint)")
-            //                }
-            //                Section(header: Text("Start point")) {
-            //                    TextField("Destination point", text: $destinationPoint)
-            //                }
-            //                Section {
-            //                    DatePicker(
-            //                        selection: $creationDate,
-            //                        displayedComponents: .date) {
-            //                            Text("Release Date").foregroundColor(Color(.gray))
-            //                        }
-            //                }
-            //                Section {
-            //                    Button(action: addRideAction) {
-            //                        Text("Add ride")
-            //                    }
-            //                }
-            //            }
-            //            .navigationBarTitle(Text("Add Ride"), displayMode: .inline)
         }
     }
     
@@ -163,26 +143,7 @@ struct AddRideView: View {
         print("Source coord: \(startPointCoord)")
         print("Destination coord: \(destinationPointCoord)")
         
-        rideList.append(
-            RideModel(
-                title: rideTitle,
-                startPoint: startPoint,
-                destinationPoint: destinationPoint,
-                startPointCoord: startPointCoord,
-                destinationPointCoord: destinationPointCoord,
-                rideDate: rideDate,
-                driver: driverName,
-                creatorAvatar: "avatar",
-                creationDate: Date()
-            )
-        )
-        
-        //        onComplete(
-        //            title.isEmpty ? AddRideView.DefaultRideTitle : title,
-        //            startPoint.isEmpty ? AddRideView.DefaultRideStartPoint : startPoint,
-        //            destinationPoint.isEmpty ? AddRideView.DefaultRideDestinationPoint : destinationPoint,
-        //            creationDate
-        //        )
+        DataController().addRide(title: rideTitle, driver: driverName, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
     }
 }
 
