@@ -151,13 +151,8 @@ struct AddRideView: View {
     
     func saveToFirebase() {
         let db = Firestore.firestore()
-//        let doc = db.collection("rides").document()
-//        self.doc = doc.documentID
-//
         let sourcePoint = GeoPoint(latitude: startPointCoord.latitude, longitude: startPointCoord.longitude)
         let destinationPoint = GeoPoint(latitude: destinationPointCoord.latitude, longitude: destinationPointCoord.longitude)
-//
-//        doc.setData([])
         
         // Add a new document with a generated ID
         var ref: DocumentReference? = nil

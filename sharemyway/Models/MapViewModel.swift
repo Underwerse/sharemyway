@@ -66,6 +66,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             let destinationPin = MKPointAnnotation()
             destinationPin.coordinate = destinationCoordinate
             destinationPin.title = ride.destinationPoint
+            destinationPin.subtitle = "destination"
             mapView.addAnnotation(destinationPin)
             
             let req = MKDirections.Request()
