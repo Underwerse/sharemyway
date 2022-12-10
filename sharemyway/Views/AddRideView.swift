@@ -7,6 +7,8 @@
 
 import SwiftUI
 import MapKit
+import FirebaseCore
+import FirebaseFirestore
 
 struct AddRideView: View {
     
@@ -24,6 +26,9 @@ struct AddRideView: View {
     @State var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
     @State var rideDate = Date()
     @State var isModal = false
+    
+    // Doc for Firebase
+    @State var doc = ""
     
     // TabView selection var
     //    @Binding var tabSelection: Int
@@ -140,5 +145,35 @@ struct AddRideView: View {
         print("Destination coord: \(destinationPointCoord)")
         
         DataController().addRide(title: title, driver: driver, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
+        
+        saveToFirebase()
+    }
+    
+    func saveToFirebase() {
+        let db = Firestore.firestore()
+//        let doc = db.collection("rides").document()
+//        self.doc = doc.documentID
+//
+        let sourcePoint = GeoPoint(latitude: startPointCoord.latitude, longitude: startPointCoord.longitude)
+        let destinationPoint = GeoPoint(latitude: destinationPointCoord.latitude, longitude: destinationPointCoord.longitude)
+//
+//        doc.setData([])
+        
+        // Add a new document with a generated ID
+        var ref: DocumentReference? = nil
+        ref = db.collection("rides").addDocument(data: [
+            "title": title,
+            "driver": driver,
+            "startPoint": sourcePoint,
+            "destinationPoint": destinationPoint,
+            "rideDate": rideDate,
+            "creationDate": Date()
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
     }
 }

@@ -8,7 +8,6 @@
 import SwiftUI
 import CoreLocation
 import MapKit
-import Firebase
 
 struct MapViewScreen: View {
     
@@ -19,8 +18,6 @@ struct MapViewScreen: View {
 //    @State var start
     // Set marker to the map and sent to Firebase trigger
     @State var setRoute = false
-    // Doc for Firebase
-    @State var doc = ""
     
     @State var isRidesShown = false
     
