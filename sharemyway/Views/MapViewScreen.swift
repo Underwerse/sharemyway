@@ -22,6 +22,16 @@ struct MapViewScreen: View {
     // Doc for Firebase
     @State var doc = ""
     
+    @State var isRidesShown = false
+    
+    // Rides
+    @FetchRequest(
+        entity: Ride.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Ride.rideDate, ascending: true)
+        ]
+    ) var rides: FetchedResults<Ride>
+        
     var body: some View {
         
         ZStack {
@@ -84,6 +94,22 @@ struct MapViewScreen: View {
                 Spacer()
                 
                 VStack {
+                    
+                    Button {
+                        if !isRidesShown {
+                            mapData.showRidesOnMap(rides: rides)
+                        } else {
+                            mapData.mapView.removeAnnotations(mapData.mapView.annotations)
+                            mapData.mapView.removeOverlays(mapData.mapView.overlays)
+                        }
+                        isRidesShown.toggle()
+                    } label: {
+                        Image(systemName: "point.topleft.down.curvedto.point.filled.bottomright.up")
+                            .font(.title2)
+                        .padding(10)
+                        .background(Color(hue: 1.0, saturation: 0.0, brightness: 1.0, opacity: 0.4))
+                        .clipShape(Circle())
+                    }
                     
                     Button(action: mapData.focusLocation, label: {
                         Image(systemName: "location.fill")
