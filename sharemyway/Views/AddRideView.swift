@@ -12,20 +12,6 @@ struct AddRideView: View {
     
     // Core Data object
     @Environment(\.managedObjectContext) var managedObjectContext
-    // Working with fetching Core Data
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.creationDate, order: .reverse)]) var ride: FetchedResults<Ride>
-    
-    //    static let defaultRideTitle = "Default ride"
-    //    static let defaultDriverName = "Default name"
-    //    static let defaultStartPoint = "Espoo"
-    //    static let defaultDestinationPoint = "Helsinki"
-    //    static let defaultStartPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
-    //    static let defaultDestinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
-    //    static let defaultRideDate = Date()
-    //
-    //    let onComplete: (String, String, String, String, String, Double, Double, Double, Double, Date, Date) -> Void
-    
-    
     // Variable for closing the view
     @Environment(\.dismiss) var dismiss
     
@@ -154,27 +140,5 @@ struct AddRideView: View {
         print("Destination coord: \(destinationPointCoord)")
         
         DataController().addRide(title: title, driver: driver, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
-        
-        //        onComplete(
-        //            title.isEmpty ? AddRideView.defaultRideTitle : title,
-        //            driver.isEmpty ? AddRideView.defaultDriverName : driver,
-        //            startPoint,
-        //            destinationPoint,
-        //            "driver",
-        //            startPointCoord.latitude,
-        //            startPointCoord.longitude,
-        //            destinationPointCoord.latitude,
-        //            destinationPointCoord.longitude,
-        //            rideDate,
-        //            Date()
-        //        )
-        
-        
     }
 }
-
-//struct AddRide_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddRideView()
-//    }
-//}

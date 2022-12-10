@@ -11,14 +11,10 @@ struct RideListView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(
-        // 2.
         entity: Ride.entity(),
-        // 3.
         sortDescriptors: [
-            NSSortDescriptor(keyPath: \Ride.title, ascending: true)
+            NSSortDescriptor(keyPath: \Ride.rideDate, ascending: true)
         ]
-        //,predicate: NSPredicate(format: "genre contains 'Action'")
-        // 4.
     ) var rides: FetchedResults<Ride>
     
     var body: some View {

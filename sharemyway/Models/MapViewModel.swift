@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import CoreData
 
 // All map data goes here
 
@@ -30,6 +31,27 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // Searched places
     @Published var places: [Place] = []
+        
+    // Draw rides
+    func showRidesOnMap(rides: FetchedResults<Ride>) {
+        mapView.removeAnnotations(mapView.annotations)
+        for ride in rides {
+            print(ride)
+            
+            let sourceCoordinate = CLLocationCoordinate2D(latitude: ride.startPointCoordLat, longitude: ride.startPointCoordLon)
+            let destinationCoordinate = CLLocationCoordinate2D(latitude: ride.destinationPointCoordLat, longitude: ride.destinationPointCoordLon)
+            
+            let sourcePin = MKPointAnnotation()
+            sourcePin.coordinate = sourceCoordinate
+            sourcePin.title = ride.startPoint
+            mapView.addAnnotation(sourcePin)
+            
+            let destinationPin = MKPointAnnotation()
+            destinationPin.coordinate = destinationCoordinate
+            destinationPin.title = ride.destinationPoint
+            mapView.addAnnotation(destinationPin)
+        }
+    }
     
     // Updating map type
     func updateMapType() {
