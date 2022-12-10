@@ -60,6 +60,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             let sourcePin = MKPointAnnotation()
             sourcePin.coordinate = sourceCoordinate
             sourcePin.title = ride.startPoint
+            sourcePin.subtitle = "start"
             mapView.addAnnotation(sourcePin)
             
             let destinationPin = MKPointAnnotation()
@@ -75,13 +76,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             directions.calculate { (direct, err) in
                 
                 if err != nil {
-                    print((err?.localizedDescription))
+                    print((err?.localizedDescription)!)
                     return
                 }
                 
                 let polyline = direct?.routes.first?.polyline
                 self.mapView.addOverlay(polyline!)
-//                self.mapView.setRegion(MKCoordinateRegion(polyline!.boundingMapRect), animated: true)
             }
         }
     }
