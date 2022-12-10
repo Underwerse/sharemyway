@@ -9,6 +9,8 @@ import SwiftUI
 import MapKit
 import CoreLocation
 import CoreData
+import FirebaseCore
+import FirebaseFirestore
 
 // All map data goes here
 
@@ -34,10 +36,42 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     // Searched places
     @Published var places: [Place] = []
     
+    // Rides array
+    @Published var ridesFirebase: [Ride] = []
+    
     override init() {
         super.init()
         self.region = self.setDefaultRegion()
-        print("Default region set")
+        self.getRidesFromFirebase()
+    }
+    
+    // Get rides from Firebase
+    func getRidesFromFirebase() -> [Ride] {
+        let db = Firestore.firestore()
+        var rides = [Ride]()
+        
+        db.collection("rides").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    
+                    // Retrieve coordinates from the document
+                    if let startPointCoords = document.get("startPoint") {
+                        let startPointCoords = startPointCoords as! GeoPoint
+                        let startPointCoord = CLLocationCoordinate2D(latitude: startPointCoords.latitude, longitude: startPointCoords.longitude)
+                        print(startPointCoord)
+                    }
+                    if let destinationPointCoords = document.get("destinationPoint") {
+                        let destinationPointCoords = destinationPointCoords as! GeoPoint
+                        let destinationPointCoord = CLLocationCoordinate2D(latitude: destinationPointCoords.latitude, longitude: destinationPointCoords.longitude)
+                        print(destinationPointCoord)
+                    }
+                }
+            }
+        }
+        
+        return rides
     }
     
     // Set default region Helsinki
@@ -46,7 +80,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.mapView.setRegion(region, animated: true)
         return region
     }
-        
+    
     // Draw rides
     func showRidesOnMap(rides: FetchedResults<Ride>) {
         mapView.removeAnnotations(mapView.annotations)
