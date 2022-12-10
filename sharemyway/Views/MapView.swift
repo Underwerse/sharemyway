@@ -32,6 +32,14 @@ struct MapView: UIViewRepresentable {
     
     class Coordinator: NSObject, MKMapViewDelegate {
         
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let render = MKPolylineRenderer(overlay: overlay)
+            render.strokeColor = .blue
+            render.lineWidth = 4
+            
+            return render
+        }
+        
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             
             // Custom pins

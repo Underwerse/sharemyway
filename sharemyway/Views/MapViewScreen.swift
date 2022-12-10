@@ -100,6 +100,7 @@ struct MapViewScreen: View {
                             mapData.showRidesOnMap(rides: rides)
                         } else {
                             mapData.mapView.removeAnnotations(mapData.mapView.annotations)
+                            mapData.mapView.removeOverlays(mapData.mapView.overlays)
                         }
                         isRidesShown.toggle()
                     } label: {

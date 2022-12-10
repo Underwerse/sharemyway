@@ -14,6 +14,8 @@ import CoreData
 
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
+    private var defaultRegionCoord = CLLocationCoordinate2D(latitude: 60.216905, longitude: 24.935865)
+    
     @Published var mapView = MKMapView()
     
     // Region
@@ -31,12 +33,26 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // Searched places
     @Published var places: [Place] = []
+    
+    override init() {
+        super.init()
+        self.region = self.setDefaultRegion()
+        print("Default region set")
+    }
+    
+    // Set default region Helsinki
+    func setDefaultRegion() -> MKCoordinateRegion {
+        let region = MKCoordinateRegion(center: defaultRegionCoord, latitudinalMeters: 30000, longitudinalMeters: 30000)
+        self.mapView.setRegion(region, animated: true)
+        return region
+    }
         
     // Draw rides
     func showRidesOnMap(rides: FetchedResults<Ride>) {
         mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
+        
         for ride in rides {
-            print(ride)
             
             let sourceCoordinate = CLLocationCoordinate2D(latitude: ride.startPointCoordLat, longitude: ride.startPointCoordLon)
             let destinationCoordinate = CLLocationCoordinate2D(latitude: ride.destinationPointCoordLat, longitude: ride.destinationPointCoordLon)
@@ -50,6 +66,23 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             destinationPin.coordinate = destinationCoordinate
             destinationPin.title = ride.destinationPoint
             mapView.addAnnotation(destinationPin)
+            
+            let req = MKDirections.Request()
+            req.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinate))
+            req.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoordinate))
+            
+            let directions = MKDirections(request: req)
+            directions.calculate { (direct, err) in
+                
+                if err != nil {
+                    print((err?.localizedDescription))
+                    return
+                }
+                
+                let polyline = direct?.routes.first?.polyline
+                self.mapView.addOverlay(polyline!)
+//                self.mapView.setRegion(MKCoordinateRegion(polyline!.boundingMapRect), animated: true)
+            }
         }
     }
     
@@ -145,6 +178,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         guard let location = locations.last else {
+            setDefaultRegion()
             return
         }
         
