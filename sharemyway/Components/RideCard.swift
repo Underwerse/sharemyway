@@ -73,8 +73,6 @@ struct RideCard: View {
     func dateToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM YY"
-        print(date)
-        print(dateFormatter.string(from: date))
         let strDate = dateFormatter.string(from: date)
         return strDate
     }
