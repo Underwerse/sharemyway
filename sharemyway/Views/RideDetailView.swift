@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct RideDetailView: View {
-    var ride: RideModel
+    var ride: Ride
     
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .center) {
-                Image(ride.creatorAvatar)
+                Image(ride.creatorAvatar!)
                     .resizable()
                     .cornerRadius(20)
                     .frame(width: 150, height: 150)
@@ -21,37 +21,47 @@ struct RideDetailView: View {
                     HStack(alignment: .top) {
                         Text("Driver:")
                             .bold()
-                        Text("\(ride.creatorName)")
+                        Text(ride.driver!)
                         
                     }
                     .padding(.bottom, 1)
                     HStack(alignment: .top) {
                         Text("From:")
                             .bold()
-                        Text("\(ride.startPoint)")
+                        Text(ride.startPoint!)
                     }
                     .padding(.bottom, 1)
                     HStack(alignment: .top) {
                         Text("To:")
                             .bold()
-                        Text("\(ride.finishPoint)")
+                        Text(ride.destinationPoint!)
                     }
                     .padding(.bottom, 1)
-                    HStack {
-                        Text("Description:")
+                    HStack(alignment: .top) {
+                        Text("Ride date:")
                             .bold()
-                        Text("\(ride.description)")
+                        Text(dateToString(date: ride.rideDate!))
                     }
+                    .padding(.bottom, 1)
                 }
                 .padding(.leading)
             }
         }
         .navigationTitle("Ride detail")
     }
-}
-
-struct RideDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        RideDetailView(ride: rideList[0])
+    
+    func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM YY"
+        print(date)
+        print(dateFormatter.string(from: date))
+        let strDate = dateFormatter.string(from: date)
+        return strDate
     }
 }
+
+//struct RideDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RideDetailView(ride: Ride)
+//    }
+//}

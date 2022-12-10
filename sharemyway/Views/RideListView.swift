@@ -8,18 +8,50 @@
 import SwiftUI
 
 struct RideListView: View {
+    
+    @Environment(\.managedObjectContext) var managedObjectContext
+    @FetchRequest(
+        // 2.
+        entity: Ride.entity(),
+        // 3.
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Ride.title, ascending: true)
+        ]
+        //,predicate: NSPredicate(format: "genre contains 'Action'")
+        // 4.
+    ) var rides: FetchedResults<Ride>
+    
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(rideList, id: \.id) { ride in
+        NavigationView {
+            List {
+                ForEach(rides, id: \.id) { ride in
                     NavigationLink(destination: RideDetailView(ride: ride)) {
                         RideCard(ride: ride)
                     }
                 }
+                .onDelete(perform: deleteRide)
             }
-            .background(.white)
+            .listStyle(.plain)
+//            .background(.white)
+            .navigationTitle("ShareMyWay!")
         }
-        .navigationTitle("ShareMyWay! rides list")
+        .navigationViewStyle(.stack)
+    }
+    
+    private func deleteRide(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { rides[$0] }.forEach(managedObjectContext.delete)
+            
+            saveContext()
+        }
+    }
+    
+    func saveContext() {
+      do {
+        try managedObjectContext.save()
+      } catch {
+        print("Error saving managed object context: \(error)")
+      }
     }
 }
 
