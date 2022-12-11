@@ -2,7 +2,7 @@
 //  LocationManager.swift
 //  sharemyway
 //
-//  Created by iosdev on 29.11.2022.
+//  Created by Pavel Chernov on 29.11.2022.
 //
 
 import SwiftUI

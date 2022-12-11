@@ -26,10 +26,11 @@
 		6A95CB42293FBD1E00DC40CD /* AddRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A95CB41293FBD1E00DC40CD /* AddRideView.swift */; };
 		6A98E21229262AB000260AB2 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98E21129262AB000260AB2 /* RideDetailView.swift */; };
 		6AB63FBD29424869003C8E24 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB63FBC29424869003C8E24 /* Place.swift */; };
+		6AC31AAB2946584E00F0AF73 /* RidesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC31AAA2946584E00F0AF73 /* RidesModel.swift */; };
 		6AD53C3429367811001BC522 /* SearchAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD53C3329367811001BC522 /* SearchAddressView.swift */; };
 		6AD53C3629367B37001BC522 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD53C3529367B37001BC522 /* LocationManager.swift */; };
-		6AD6227B29420EB100A9B1BF /* RideModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AD6227929420EB100A9B1BF /* RideModel.xcdatamodeld */; };
 		6AD6227D2942113E00A9B1BF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD6227C2942113E00A9B1BF /* DataController.swift */; };
+		6AFBFB852946745400AB318D /* RideModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AD6227929420EB100A9B1BF /* RideModel.xcdatamodeld */; };
 		AD69A3792930A3F800BDAAEF /* ShareMyWay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD69A3782930A3F800BDAAEF /* ShareMyWay.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		6A95CB41293FBD1E00DC40CD /* AddRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRideView.swift; sourceTree = "<group>"; };
 		6A98E21129262AB000260AB2 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
 		6AB63FBC29424869003C8E24 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		6AC31AAA2946584E00F0AF73 /* RidesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidesModel.swift; sourceTree = "<group>"; };
 		6AD53C3329367811001BC522 /* SearchAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressView.swift; sourceTree = "<group>"; };
 		6AD53C3529367B37001BC522 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		6AD6227A29420EB100A9B1BF /* RideModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RideModel.xcdatamodel; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				6AB63FBC29424869003C8E24 /* Place.swift */,
 				6A359B09292F6FC50065AF96 /* MapViewModel.swift */,
 				6AD53C3529367B37001BC522 /* LocationManager.swift */,
+				6AC31AAA2946584E00F0AF73 /* RidesModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A5964562921466900EE9B52 /* ContentView.swift in Sources */,
+				6AFBFB852946745400AB318D /* RideModel.xcdatamodeld in Sources */,
 				6A418AB929264C4800E82224 /* MapView.swift in Sources */,
 				6A98E21229262AB000260AB2 /* RideDetailView.swift in Sources */,
 				6A359B0C292F71B10065AF96 /* MapViewScreen.swift in Sources */,
@@ -253,8 +257,8 @@
 				6A418ABB29264EBB00E82224 /* RideListView.swift in Sources */,
 				AD69A3792930A3F800BDAAEF /* ShareMyWay.swift in Sources */,
 				6AD53C3629367B37001BC522 /* LocationManager.swift in Sources */,
-				6AD6227B29420EB100A9B1BF /* RideModel.xcdatamodeld in Sources */,
 				6AD6227D2942113E00A9B1BF /* DataController.swift in Sources */,
+				6AC31AAB2946584E00F0AF73 /* RidesModel.swift in Sources */,
 				6A366AA9292544AD0059CD29 /* RideCard.swift in Sources */,
 				6A359B0A292F6FC50065AF96 /* MapViewModel.swift in Sources */,
 				6A95CB42293FBD1E00DC40CD /* AddRideView.swift in Sources */,

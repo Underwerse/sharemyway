@@ -9,8 +9,11 @@ import Foundation
 import CoreData
 import MapKit
 
-class DataController: ObservableObject {
+public class DataController: ObservableObject {
+    
     let container = NSPersistentContainer(name: "RideModel")
+    
+    public var description = NSEntityDescription()
     
     init() {
         container.loadPersistentStores { desc, error in

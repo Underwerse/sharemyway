@@ -13,6 +13,8 @@ struct ContentView: View {
     // Set TabView var for transitions
 //    @State private var tabSelection = 1
     
+//    private var mapViewModel = MapViewModel()
+    
     var body: some View {
 //        TabView(selection: $tabSelection) {
         TabView() {
@@ -31,8 +33,8 @@ struct ContentView: View {
                 }
         }
         .foregroundColor(Color.black)
+//        .onAppear(perform: mapViewModel.getRidesFromFirebase)
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
