@@ -11,7 +11,7 @@ import MapKit
 
 struct MapViewScreen: View {
     
-    @StateObject var mapData = MapViewModel()
+    @StateObject var mapViewModel = MapViewModel()
     // Location manager
     @State var locationManager = CLLocationManager()
     // Start point address
@@ -38,7 +38,7 @@ struct MapViewScreen: View {
 //            // MapView
 //            MapView()
 //            // Using it as an environment object to be used then in it's subviews
-//                .environmentObject(mapData)
+//                .environmentObject(mapViewModel)
 //                .ignoresSafeArea(.all, edges: .top)
 //
 //            VStack {
@@ -49,13 +49,13 @@ struct MapViewScreen: View {
 //                        Image(systemName: "magnifyingglass")
 //                            .foregroundColor(.gray)
 //
-//                        TextField("Search", text: $mapData.searchTxt)
+//                        TextField("Search", text: $mapViewModel.searchTxt)
 //
-//                        if mapData.searchTxt != "" {
+//                        if mapViewModel.searchTxt != "" {
 //                            Image(systemName: "xmark.circle.fill")
 //                                .foregroundColor(.gray)
 //                                .onTapGesture {
-//                                    mapData.searchTxt = ""
+//                                    mapViewModel.searchTxt = ""
 //                                }
 //                        }
 //                    }
@@ -64,20 +64,20 @@ struct MapViewScreen: View {
 //                    .background(Color.white.clipShape(RoundedRectangle(cornerRadius:10)))
 //
 //                    // Displaying results
-//                    if !mapData.places.isEmpty && mapData.searchTxt != "" {
+//                    if !mapViewModel.places.isEmpty && mapViewModel.searchTxt != "" {
 //
 //                        ScrollView {
 //
 //                            VStack(spacing: 15) {
 //
-//                                ForEach(mapData.places) { place in
+//                                ForEach(mapViewModel.places) { place in
 //
 //                                    Text(place.place.name ?? "")
 //                                        .foregroundColor(.black)
 //                                        .frame(maxWidth: .infinity, alignment: .leading)
 //                                        .padding(.leading)
 //                                        .onTapGesture {
-//                                            mapData.selectPlace(place: place)
+//                                            mapViewModel.selectPlace(place: place)
 //                                        }
 //
 //                                    Divider()
@@ -96,10 +96,10 @@ struct MapViewScreen: View {
 //
 //                    Button {
 //                        if !isRidesShown {
-//                            mapData.showRidesOnMap(rides: rides)
+//                            mapViewModel.showRidesOnMap(rides: rides)
 //                        } else {
-//                            mapData.mapView.removeAnnotations(mapData.mapView.annotations)
-//                            mapData.mapView.removeOverlays(mapData.mapView.overlays)
+//                            mapViewModel.mapView.removeAnnotations(mapViewModel.mapView.annotations)
+//                            mapViewModel.mapView.removeOverlays(mapViewModel.mapView.overlays)
 //                        }
 //                        isRidesShown.toggle()
 //                    } label: {
@@ -110,16 +110,8 @@ struct MapViewScreen: View {
 //                        .clipShape(Circle())
 //                    }
 //
-//                    Button(action: mapData.focusLocation, label: {
-//                        Image(systemName: "location.fill")
-//                            .font(.title2)
-//                        .padding(10)
-//                        .background(Color(hue: 1.0, saturation: 0.0, brightness: 1.0, opacity: 0.4))
-//                        .clipShape(Circle())
-//                    })
-//
-//                    Button(action: mapData.updateMapType, label: {
-//                        Image(systemName: mapData.mapType ==
+//                    Button(action: mapViewModel.updateMapType, label: {
+//                        Image(systemName: mapViewModel.mapType ==
 //                            .standard ? "network" : "map")
 //                        .font(.title2)
 //                        .padding(10)
@@ -134,11 +126,11 @@ struct MapViewScreen: View {
 //        .onAppear(perform: {
 //
 //            // Setting delegate
-//            locationManager.delegate = mapData
+//            locationManager.delegate = mapViewModel
 //            locationManager.requestWhenInUseAuthorization()
 //        })
 //        // Permission denied alert
-//        .alert(isPresented: $mapData.permissionDenied, content: {
+//        .alert(isPresented: $mapViewModel.permissionDenied, content: {
 //
 //            Alert(title: Text("Permission denied"), message: Text("Please enable permission in App settings"), dismissButton: .default(Text("Go to Settings"), action: {
 //
@@ -146,16 +138,16 @@ struct MapViewScreen: View {
 //                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
 //            }))
 //        })
-//        .onChange(of: mapData.searchTxt, perform: {value in
+//        .onChange(of: mapViewModel.searchTxt, perform: {value in
 //
 //            // Searching place
 //            let delay = 0.3
 //
 //            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-//                if value == mapData.searchTxt {
+//                if value == mapViewModel.searchTxt {
 //
 //                    // Search
-//                    self.mapData.searchQuery()
+//                    self.mapViewModel.searchQuery()
 //                }
 //            }
 //        })
