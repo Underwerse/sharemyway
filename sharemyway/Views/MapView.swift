@@ -10,7 +10,7 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
-    @EnvironmentObject var mapData: MapViewModel
+    @EnvironmentObject var mapViewModel: MapViewModel
     
     func makeCoordinator() -> Coordinator {
         return MapView.Coordinator()
@@ -18,7 +18,7 @@ struct MapView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> MKMapView {
         
-        let view = mapData.mapView
+        let view = mapViewModel.mapView
         
         view.showsUserLocation = true
         view.delegate = context.coordinator
@@ -42,10 +42,7 @@ struct MapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
-            // Custom pins
-            
             // Excluding user blue circle
-            
             if annotation.isKind(of: MKUserLocation.self) {
                 return nil
             } else {
@@ -55,22 +52,6 @@ struct MapView: UIViewRepresentable {
 
                 return pinAnnotation
             }
-//
-//            guard annotation is MKPointAnnotation else { return nil }
-//
-//                let identifier = "Annotation"
-//                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-//
-//                if annotationView == nil {
-//                    annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                    annotationView!.canShowCallout = true
-//                    annotationView?.image = UIImage(systemName: "autostartstop")
-//                    annotationView?.tintColor = .green
-//                } else {
-//                    annotationView!.annotation = annotation
-//                }
-//
-//                return annotationView
         }
     }
 }
