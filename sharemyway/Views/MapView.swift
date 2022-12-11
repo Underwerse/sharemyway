@@ -2,81 +2,38 @@
 //  MapView.swift
 //  sharemyway
 //
-//  Created by Pavel Chernov on 16.11.2022.
+//  Created by Pavel Chernov on 11.12.2022.
 //
 
 import SwiftUI
+import CoreLocation
 import MapKit
 
-struct MapView: UIViewRepresentable {
+struct MapView: View {
     
-    @EnvironmentObject var mapData: MapViewModel
+    @StateObject private var mapViewModel = MapViewModel()
     
-    func makeCoordinator() -> Coordinator {
-        return MapView.Coordinator()
-    }
-    
-    func makeUIView(context: Context) -> MKMapView {
-        
-        let view = mapData.mapView
-        
-        view.showsUserLocation = true
-        view.delegate = context.coordinator
-        
-        return view
-    }
-    
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        
-    }
-    
-    class Coordinator: NSObject, MKMapViewDelegate {
-        
-        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            let render = MKPolylineRenderer(overlay: overlay)
-            render.strokeColor = .blue
-            render.lineWidth = 4
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
+                .ignoresSafeArea(.all, edges: .top)
+                .tint(.pink)
             
-            return render
-        }
-        
-        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-
-            // Custom pins
-            
-            // Excluding user blue circle
-            
-            if annotation.isKind(of: MKUserLocation.self) {
-                return nil
-            } else {
-                let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "PIN_VIEW")
-                pinAnnotation.tintColor = .blue
-                pinAnnotation.canShowCallout = true
-
-                return pinAnnotation
-            }
-//
-//            guard annotation is MKPointAnnotation else { return nil }
-//
-//                let identifier = "Annotation"
-//                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-//
-//                if annotationView == nil {
-//                    annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                    annotationView!.canShowCallout = true
-//                    annotationView?.image = UIImage(systemName: "autostartstop")
-//                    annotationView?.tintColor = .green
-//                } else {
-//                    annotationView!.annotation = annotation
-//                }
-//
-//                return annotationView
+            Button(action: {
+                mapViewModel.locationManagerDidChangeAuthorization()
+            }, label: {
+                Image(systemName: "location.fill")
+                    .font(.title2)
+                .padding(10)
+                .background(Color(hue: 1.0, saturation: 0.0, brightness: 1.0, opacity: 0.4))
+                .clipShape(Circle())
+            })
         }
     }
 }
 
-/* struct MapView_Previews: PreviewProvider {
- static var previews: some View {
- MapView()
- }
- } */
+struct MapView_Previews: PreviewProvider {
+    static var previews: some View {
+        MapView()
+    }
+}

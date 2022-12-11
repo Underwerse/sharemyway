@@ -20,7 +20,7 @@ struct ContentView: View {
                 .tabItem() {
                     Label("Rides list", systemImage: "list.bullet.rectangle.fill")
                 }
-            MapViewScreen()
+            MapView()
                 .tabItem() {
                     Label("Rides map", systemImage: "map.fill")
                 }
