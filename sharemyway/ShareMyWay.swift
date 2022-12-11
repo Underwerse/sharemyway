@@ -21,7 +21,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct ShareMyWay: App {
     // CoreData object
-    @State private var dataController = DataController()
+    @StateObject private var dataController = DataController()
     
     // register app delegate for Firebase setup
       @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate

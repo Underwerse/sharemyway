@@ -19,8 +19,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     // Core Data object
     @Environment(\.managedObjectContext) var managedObjectContext
     
-    //    private var defaultRegionCoord = CLLocationCoordinate2D(latitude: 60.216905, longitude: 24.935865)
-    
     @Published var mapView = MKMapView()
     
     // Location manager
@@ -42,17 +40,17 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var places: [Place] = []
     
     // Rides array
-    @Published var ridesFirebase: [Ride] = []
+    @Published var ridesFirebase: [RidesModel] = []
     
     override init() {
         super.init()
         locationManager.delegate = self
         locationManagerDidChangeAuthorization()
-        getRidesFromFirebaseAndLoadToCoreData()
+        getRidesFromFirebase()
     }
     
     // Get rides from Firebase
-    func getRidesFromFirebaseAndLoadToCoreData() {
+    func getRidesFromFirebase() {
         let db = Firestore.firestore()
         var title = ""
         var driver = ""
@@ -73,22 +71,22 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                     if let titleDoc = document.get("title") {
                         title = titleDoc as! String
                     }
-
+                    
                     // Retrieve driver from the document
                     if let driverDoc = document.get("driver") {
                         driver = driverDoc as! String
                     }
-
+                    
                     // Retrieve start point from the document
                     if let startPointDoc = document.get("startPoint") {
                         startPoint = startPointDoc as! String
                     }
-
+                    
                     // Retrieve destination point from the document
                     if let destinationPointDoc = document.get("destinationPoint") {
                         destinationPoint = destinationPointDoc as! String
                     }
-
+                    
                     // Retrieve ride Date from the document
                     if let rideDateDoc = document.get("rideDate") {
                         let timestamp = rideDateDoc as! Timestamp
@@ -100,7 +98,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                         let timestamp = creationDateDoc as! Timestamp
                         creationDate = timestamp.dateValue()
                     }
-
+                    
                     // Retrieve coordinates from the document
                     if let startPointCoords = document.get("startPointCoords") {
                         let startPointCoords = startPointCoords as! GeoPoint
@@ -110,9 +108,27 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                         let destinationPointCoords = destinationPointCoords as! GeoPoint
                         let destinationPointCoord = CLLocationCoordinate2D(latitude: destinationPointCoords.latitude, longitude: destinationPointCoords.longitude)
                     }
+                    
+                    self.ridesFirebase.append(RidesModel(title: title, driver: driver, startPoint: startPoint, destinationPoint: destinationPoint, startPointCoord: startPointCoord, destinationPointCoord: destinationPointCoord, rideDate: rideDate, creationDate: creationDate))
                 }
+                
+                self.loadRidesToCoreData()
+                
+                print("ridesFirebase ARR length: \(self.ridesFirebase.count)")
             }
         }
+    }
+    
+    // Load rides from Firebase to Core Data
+    func loadRidesToCoreData() {
+        for ride in self.ridesFirebase {
+            
+            print(ride)
+            
+//            DataController().addRide(title: ride.title, driver: ride.driver, creatorAvatar: "driver", startPoint: ride.startPoint, destinationPoint: ride.destinationPoint, startPointCoordLat: ride.startPointCoord.latitude, startPointCoordLon: ride.startPointCoord.longitude, destinationPointCoordLat: ride.destinationPointCoord.latitude, destinationPointCoordLon: ride.destinationPointCoord.longitude, rideDate: ride.rideDate, creationDate: ride.creationDate, context: self.managedObjectContext)
+        }
+        
+        print("Rides have been added to CoreData")
     }
     
     // Draw rides
