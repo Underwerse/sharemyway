@@ -16,6 +16,9 @@ import FirebaseFirestore
 
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
+    // Core Data object
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
     private var defaultRegionCoord = CLLocationCoordinate2D(latitude: 60.216905, longitude: 24.935865)
     
     @Published var mapView = MKMapView()
@@ -41,14 +44,21 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     override init() {
         super.init()
-        self.region = self.setDefaultRegion()
-        self.getRidesFromFirebase()
+//        self.region = self.setDefaultRegion()
+        self.getRidesFromFirebaseAndLoadToCoreData()
     }
     
     // Get rides from Firebase
-    func getRidesFromFirebase() -> [Ride] {
+    func getRidesFromFirebaseAndLoadToCoreData() {
         let db = Firestore.firestore()
-        var rides = [Ride]()
+//        var title = ""
+//        var driver = ""
+//        var startPoint = ""
+//        var destinationPoint = ""
+//        var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
+//        var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
+//        var rideDate = Date()
+//        var creationDate = Date()
         
         db.collection("rides").getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -56,22 +66,52 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             } else {
                 for document in querySnapshot!.documents {
                     
-                    // Retrieve coordinates from the document
-                    if let startPointCoords = document.get("startPoint") {
-                        let startPointCoords = startPointCoords as! GeoPoint
-                        let startPointCoord = CLLocationCoordinate2D(latitude: startPointCoords.latitude, longitude: startPointCoords.longitude)
-                        print(startPointCoord)
-                    }
-                    if let destinationPointCoords = document.get("destinationPoint") {
-                        let destinationPointCoords = destinationPointCoords as! GeoPoint
-                        let destinationPointCoord = CLLocationCoordinate2D(latitude: destinationPointCoords.latitude, longitude: destinationPointCoords.longitude)
-                        print(destinationPointCoord)
-                    }
+//                    // Retrieve title from the document
+//                    if let titleDoc = document.get("title") {
+//                        title = titleDoc as! String
+//                    }
+//
+//                    // Retrieve driver from the document
+//                    if let driverDoc = document.get("driver") {
+//                        driver = driverDoc as! String
+//                    }
+//
+//                    // Retrieve start point from the document
+//                    if let startPointDoc = document.get("startPoint") {
+//                        startPoint = startPointDoc as! String
+//                    }
+//
+//                    // Retrieve destination point from the document
+//                    if let destinationPointDoc = document.get("destinationPoint") {
+//                        destinationPoint = destinationPointDoc as! String
+//                    }
+//
+//                    // Retrieve ride Date from the document
+//                    if let rideDateDoc = document.get("rideDate") {
+//                        rideDate = rideDateDoc as! Date
+//                    }
+//
+//                    // Retrieve creation Date from the document
+//                    if let creationDateDoc = document.get("creationDate") {
+//                        creationDate = creationDateDoc as! Date
+//                    }
+//
+//                    // Retrieve coordinates from the document
+//                    if let startPointCoords = document.get("startPointCoords") {
+//                        let startPointCoords = startPointCoords as! GeoPoint
+//                        let startPointCoord = CLLocationCoordinate2D(latitude: startPointCoords.latitude, longitude: startPointCoords.longitude)
+//                        print(startPointCoord)
+//                    }
+//                    if let destinationPointCoords = document.get("destinationPointCoords") {
+//                        let destinationPointCoords = destinationPointCoords as! GeoPoint
+//                        let destinationPointCoord = CLLocationCoordinate2D(latitude: destinationPointCoords.latitude, longitude: destinationPointCoords.longitude)
+//                        print(destinationPointCoord)
+//                    }
+                    
+//                    DataController().addRide(title: title, driver: driver, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: creationDate, context: self.managedObjectContext)
                 }
             }
         }
-        
-        return rides
     }
     
     // Set default region Helsinki
@@ -83,6 +123,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // Draw rides
     func showRidesOnMap(rides: FetchedResults<Ride>) {
+        
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
         
@@ -213,7 +254,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         guard let location = locations.last else {
-            setDefaultRegion()
+//            setDefaultRegion()
             return
         }
         
