@@ -121,6 +121,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     // Load rides from Firebase to Core Data
     func loadRidesToCoreData() {
         
+        persistenceController.deleteAllData("Ride")
+        
         print("ridesFirebase ARR length: \(self.ridesFirebase.count)")
         print("START adding rides to CoreData")
         
