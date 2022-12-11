@@ -8,12 +8,12 @@
 import SwiftUI
 import MapKit
 
-struct MapView: UIViewRepresentable {
+struct MapViewController: UIViewRepresentable {
     
     @EnvironmentObject var mapViewModel: MapViewModel
     
     func makeCoordinator() -> Coordinator {
-        return MapView.Coordinator()
+        return MapViewController.Coordinator()
     }
     
     func makeUIView(context: Context) -> MKMapView {

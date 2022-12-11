@@ -20,8 +20,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct ShareMyWay: App {
+    
     // CoreData object
-    @StateObject private var dataController = DataController()
+    let persistenceController = PersistenceController.shared
+    @Environment(\.scenePhase) var scenePhase
     
     // register app delegate for Firebase setup
       @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -30,8 +32,11 @@ struct ShareMyWay: App {
         WindowGroup {
             NavigationView {
                 ContentView()
-                    .environment(\.managedObjectContext, dataController.container.viewContext)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
             }
+        }
+        .onChange(of: scenePhase) { _ in
+            persistenceController.save()
         }
     }
 }

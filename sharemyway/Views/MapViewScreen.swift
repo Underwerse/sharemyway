@@ -34,7 +34,7 @@ struct MapViewScreen: View {
         ZStack {
             
             // MapView
-            MapView()
+            MapViewController()
             // Using it as an environment object to be used then in it's subviews
                 .environmentObject(mapViewModel)
                 .ignoresSafeArea(.all, edges: .top)

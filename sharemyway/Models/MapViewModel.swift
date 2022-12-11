@@ -18,6 +18,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // Core Data object
     @Environment(\.managedObjectContext) var managedObjectContext
+    let persistenceController = PersistenceController.shared
     
     @Published var mapView = MKMapView()
     
@@ -56,8 +57,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         var driver = ""
         var startPoint = ""
         var destinationPoint = ""
-        var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
-        var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
+        let startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
+        let destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
         var rideDate = Date()
         var creationDate = Date()
         
@@ -113,19 +114,23 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 }
                 
                 self.loadRidesToCoreData()
-                
-                print("ridesFirebase ARR length: \(self.ridesFirebase.count)")
             }
         }
     }
     
     // Load rides from Firebase to Core Data
     func loadRidesToCoreData() {
+        
+        print("ridesFirebase ARR length: \(self.ridesFirebase.count)")
+        print("START adding rides to CoreData")
+        
         for ride in self.ridesFirebase {
             
             print(ride)
             
-//            DataController().addRide(title: ride.title, driver: ride.driver, creatorAvatar: "driver", startPoint: ride.startPoint, destinationPoint: ride.destinationPoint, startPointCoordLat: ride.startPointCoord.latitude, startPointCoordLon: ride.startPointCoord.longitude, destinationPointCoordLat: ride.destinationPointCoord.latitude, destinationPointCoordLon: ride.destinationPointCoord.longitude, rideDate: ride.rideDate, creationDate: ride.creationDate, context: self.managedObjectContext)
+            persistenceController.addRide(title: ride.title, driver: ride.driver, creatorAvatar: "driver", startPoint: ride.startPoint, destinationPoint: ride.destinationPoint, startPointCoordLat: ride.startPointCoord.latitude, startPointCoordLon: ride.startPointCoord.longitude, destinationPointCoordLat: ride.destinationPointCoord.latitude, destinationPointCoordLon: ride.destinationPointCoord.longitude, rideDate: ride.rideDate, creationDate: ride.creationDate, context: managedObjectContext)
+            
+            PersistenceController.shared.save()
         }
         
         print("Rides have been added to CoreData")
@@ -138,6 +143,9 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         mapView.removeOverlays(mapView.overlays)
         
         for ride in rides {
+            
+            print("RIDE fetched from CoreData")
+            print(ride)
             
             let sourceCoordinate = CLLocationCoordinate2D(latitude: ride.startPointCoordLat, longitude: ride.startPointCoordLon)
             let destinationCoordinate = CLLocationCoordinate2D(latitude: ride.destinationPointCoordLat, longitude: ride.destinationPointCoordLon)
