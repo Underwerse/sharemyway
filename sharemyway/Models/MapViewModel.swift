@@ -128,11 +128,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         for ride in self.ridesFirebase {
             
-            print(ride)
-            
             persistenceController.addRide(title: ride.title, driver: ride.driver, creatorAvatar: "driver", startPoint: ride.startPoint, destinationPoint: ride.destinationPoint, startPointCoordLat: ride.startPointCoord.latitude, startPointCoordLon: ride.startPointCoord.longitude, destinationPointCoordLat: ride.destinationPointCoord.latitude, destinationPointCoordLon: ride.destinationPointCoord.longitude, rideDate: ride.rideDate, creationDate: ride.creationDate, context: managedObjectContext)
-            
-            PersistenceController.shared.save()
         }
         
         print("Rides have been added to CoreData")
