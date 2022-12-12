@@ -13,61 +13,65 @@ struct RideCard: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
-                .frame(height: 150)
+                .frame(height: 200)
                 .foregroundColor(Color("CardBgrColor"))
                 .shadow(color: .gray, radius: 5, x: 5, y: 5)
             HStack(alignment: .top) {
                 HStack(alignment: .top) {
-//                    Image("driver")
-//                        .resizable()
-//                        .cornerRadius(20)
-//                        .frame(width: 50, height: 50)
+                    Image(ride.creatorAvatar ?? "avatar")
+                        .resizable()
+                        .cornerRadius(20)
+                        .frame(width: 30, height: 30)
+                    
                     VStack(alignment: .leading) {
                         HStack(alignment: .top) {
-                            Text("Driver:")
+                            Text("Title:")
                                 .bold()
                             Text(ride.title!)
                                 
                         }
                         .padding(.bottom, 1)
+                        
                         HStack(alignment: .top) {
                             Text("From:")
                                 .bold()
                             Text(ride.startPoint!)
                         }
                         .padding(.bottom, 1)
+                        
                         HStack(alignment: .top) {
                             Text("To:")
                                 .bold()
                             Text(ride.destinationPoint!)
                         }
                         .padding(.bottom, 1)
-                        HStack(alignment: .top) {
-                            Text("Date:")
+                        
+                        HStack {
+                            Text("Ride date:")
                                 .bold()
                             Text(dateToString(date: ride.rideDate!))
                         }
-                        .padding(.bottom, 1)
                     }
-                    
+                    .padding(.bottom, 1)
                 }
-//                .padding(.trailing, -10.0)
+                .padding(.trailing, -10.0)
 //                Spacer()
-//
-//                Button {
-//                    print("like button pressed")
-//                } label: {
-//                    Image("like_empty")
-//                        .resizable(resizingMode: .stretch)
-//                        .frame(width: 30, height: 30)
-//                        .padding(10)
-//                        .background(Color(hue: 0.0, saturation: 0.0, brightness: 1.0, opacity: 0.0))
-//                }
-//                .frame(width: 30.0, height: 30.0)
+                
+                Button {
+                    print("like button pressed")
+                } label: {
+                    Image("like_empty")
+                        .resizable(resizingMode: .stretch)
+                        .frame(width: 30, height: 30)
+                        .padding(10)
+                        .background(Color(hue: 0.0, saturation: 0.0, brightness: 1.0, opacity: 0.0))
+                }
+                .frame(width: 30.0, height: 30.0)
             }
+            .padding()
         }
         .foregroundColor(.white)
-//        .padding(.horizontal)
+        .padding(.horizontal)
     }
     
     func dateToString(date: Date) -> String {
@@ -78,8 +82,10 @@ struct RideCard: View {
     }
 }
 
-//struct RideCard_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RideCard(ride: ride)
-//    }
-//}
+struct RideCard_Previews: PreviewProvider {
+    static var ride: Ride = Ride()
+    
+    static var previews: some View {
+        RideCard(ride: ride)
+    }
+}
