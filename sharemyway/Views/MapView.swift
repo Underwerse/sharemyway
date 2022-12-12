@@ -10,21 +10,21 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
-        @EnvironmentObject var mapData: MapViewModel
+    @EnvironmentObject var mapData: MapViewModel
     
-        func makeCoordinator() -> Coordinator {
-            return MapView.Coordinator()
-        }
+    func makeCoordinator() -> Coordinator {
+        return MapView.Coordinator()
+    }
     
-        func makeUIView(context: Context) -> MKMapView {
-    
-            let view = mapData.mapView
-    
-            view.showsUserLocation = true
-            view.delegate = context.coordinator
-    
-            return view
-        }
+    func makeUIView(context: Context) -> MKMapView {
+        
+        let view = mapData.mapView
+        
+        view.showsUserLocation = true
+        view.delegate = context.coordinator
+        
+        return view
+    }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
         
@@ -32,10 +32,17 @@ struct MapView: UIViewRepresentable {
     
     class Coordinator: NSObject, MKMapViewDelegate {
         
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let render = MKPolylineRenderer(overlay: overlay)
+            render.strokeColor = .blue
+            render.lineWidth = 4
+            
+            return render
+        }
+        
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            
+
             // Custom pins
-            
             
             // Excluding user blue circle
             
@@ -43,11 +50,27 @@ struct MapView: UIViewRepresentable {
                 return nil
             } else {
                 let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "PIN_VIEW")
-                pinAnnotation.tintColor = .red
+                pinAnnotation.tintColor = .blue
                 pinAnnotation.canShowCallout = true
-                
+
                 return pinAnnotation
             }
+//
+//            guard annotation is MKPointAnnotation else { return nil }
+//
+//                let identifier = "Annotation"
+//                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+//
+//                if annotationView == nil {
+//                    annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//                    annotationView!.canShowCallout = true
+//                    annotationView?.image = UIImage(systemName: "autostartstop")
+//                    annotationView?.tintColor = .green
+//                } else {
+//                    annotationView!.annotation = annotation
+//                }
+//
+//                return annotationView
         }
     }
 }

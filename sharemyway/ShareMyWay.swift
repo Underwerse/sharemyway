@@ -19,6 +19,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct ShareMyWay: App {
+    // CoreData object
+    @State private var dataController = DataController()
+    
     // register app delegate for Firebase setup
       @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
@@ -26,6 +29,7 @@ struct ShareMyWay: App {
         WindowGroup {
             NavigationView {
                 ContentView()
+                    .environment(\.managedObjectContext, dataController.container.viewContext)
             }
         }
     }

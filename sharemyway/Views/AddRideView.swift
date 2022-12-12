@@ -6,31 +6,53 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct AddRideView: View {
-//    static let DefaultRideTitle = "New Ride"
-//    static let DefaultRideStartPoint = "Espoo, Karaportti, 2"
-//    static let DefaultRideDestinationPoint = "Espoo, Helsinki, Aleksanterinkatu, 1"
+    
+    // Core Data object
+    @Environment(\.managedObjectContext) var managedObjectContext
+    // Variable for closing the view
+    @Environment(\.dismiss) var dismiss
     
     @State var btnLabel = ""
+    @State var title = ""
+    @State var driver = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
-    @State var creationDate = Date()
-    //    let onComplete: (String, String, String, Date) -> Void
+    @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
+    @State var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
+    @State var rideDate = Date()
     @State var isModal = false
+    
+    // TabView selection var
+    //    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
+            Form {
+                Text("Create new ride")
+                    .font(.largeTitle)
+                    .padding()
+                HStack {
+                    Text("Ride title: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                    TextField("Ride title", text: $title)
+                }
+                HStack {
+                    Text("Driver name: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                    TextField("Driver name", text: $driver)
+                }
                 VStack(alignment: .leading) {
-                    Text("Create new ride")
-                        .font(.largeTitle)
                     Button("Pick start point") {
                         self.isModal.toggle()
                         self.btnLabel = "start"
                     }
                     .sheet(isPresented: $isModal) {
-                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
+                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
                     }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
@@ -45,13 +67,13 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
-                    HStack {
-                        Text("From: ")
-                            .font(.title3.bold())
-                            .multilineTextAlignment(.leading)
-                            .padding()
-                        Text(startPoint)
-                    }
+                }
+                HStack {
+                    Text("From: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                        .padding()
+                    Text(startPoint)
                 }
                 VStack(alignment: .leading) {
                     Button("Pick destination point") {
@@ -59,7 +81,7 @@ struct AddRideView: View {
                         self.btnLabel = "destination"
                     }
                     .sheet(isPresented: $isModal) {
-                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, btnLabel: $btnLabel)
+                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
                     }
                     .fontWeight(.semibold)
                     .frame(maxWidth: 300)
@@ -74,17 +96,17 @@ struct AddRideView: View {
                             .padding(.trailing)
                     }
                     .foregroundColor(.white)
-                    HStack {
-                        Text("To: ")
-                            .font(.title3.bold())
-                            .multilineTextAlignment(.leading)
-                            .padding()
-                        Text(destinationPoint)
-                    }
+                }
+                HStack {
+                    Text("To: ")
+                        .font(.title3.bold())
+                        .multilineTextAlignment(.leading)
+                        .padding()
+                    Text(destinationPoint)
                 }
                 VStack(alignment: .leading) {
                     DatePicker(
-                        selection: $creationDate,
+                        selection: $rideDate,
                         displayedComponents: .date) {
                             Text("Ride date")
                                 .font(.title3.bold())
@@ -95,7 +117,8 @@ struct AddRideView: View {
                 }
                 Spacer()
                 Button {
-                    
+                    addRideAction()
+                    //                    tabSelection = 2
                 } label: {
                     Text("Add ride")
                         .fontWeight(.semibold)
@@ -107,56 +130,15 @@ struct AddRideView: View {
                         }
                         .foregroundColor(.white)
                 }
+                
             }
-            .padding()
-            
-            
-            
-            //            Form {
-            //                Section(header: Text("Title")) {
-            //                    TextField("Title", text: $title)
-            //                }
-            //                Section(header: Text("Start point")) {
-            //                    Button("Pick start point") {
-            //                        self.isModal.toggle()
-            //                    }
-            //                    .sheet(isPresented: $isModal) {
-            //                        MapViewSelection()
-            //                    }
-            //                    Text("Start point: \($startPoint)")
-            //                }
-            //                Section(header: Text("Start point")) {
-            //                    TextField("Destination point", text: $destinationPoint)
-            //                }
-            //                Section {
-            //                    DatePicker(
-            //                        selection: $creationDate,
-            //                        displayedComponents: .date) {
-            //                            Text("Release Date").foregroundColor(Color(.gray))
-            //                        }
-            //                }
-            //                Section {
-            //                    Button(action: addRideAction) {
-            //                        Text("Add ride")
-            //                    }
-            //                }
-            //            }
-            //            .navigationBarTitle(Text("Add Ride"), displayMode: .inline)
         }
     }
     
     private func addRideAction() {
-        //        onComplete(
-        //            title.isEmpty ? AddRideView.DefaultRideTitle : title,
-        //            startPoint.isEmpty ? AddRideView.DefaultRideStartPoint : startPoint,
-        //            destinationPoint.isEmpty ? AddRideView.DefaultRideDestinationPoint : destinationPoint,
-        //            creationDate
-        //        )
-    }
-}
-
-struct AddRide_Previews: PreviewProvider {
-    static var previews: some View {
-        AddRideView()
+        print("Source coord: \(startPointCoord)")
+        print("Destination coord: \(destinationPointCoord)")
+        
+        DataController().addRide(title: title, driver: driver, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
     }
 }
