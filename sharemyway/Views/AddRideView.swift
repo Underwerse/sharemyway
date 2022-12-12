@@ -7,11 +7,11 @@
 
 import SwiftUI
 import MapKit
+import FirebaseCore
+import FirebaseFirestore
 
 struct AddRideView: View {
     
-    // Core Data object
-    @Environment(\.managedObjectContext) var managedObjectContext
     // Variable for closing the view
     @Environment(\.dismiss) var dismiss
     
@@ -24,6 +24,9 @@ struct AddRideView: View {
     @State var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
     @State var rideDate = Date()
     @State var isModal = false
+    
+    // Doc for Firebase
+    @State var doc = ""
     
     // TabView selection var
     //    @Binding var tabSelection: Int
@@ -136,9 +139,32 @@ struct AddRideView: View {
     }
     
     private func addRideAction() {
-        print("Source coord: \(startPointCoord)")
-        print("Destination coord: \(destinationPointCoord)")
         
-        DataController().addRide(title: title, driver: driver, creatorAvatar: "driver", startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
+        saveToFirebase()
+    }
+    
+    func saveToFirebase() {
+        let db = Firestore.firestore()
+        let sourcePointCoords = GeoPoint(latitude: startPointCoord.latitude, longitude: startPointCoord.longitude)
+        let destinationPointCoords = GeoPoint(latitude: destinationPointCoord.latitude, longitude: destinationPointCoord.longitude)
+        
+        // Add a new document with a generated ID
+        var ref: DocumentReference? = nil
+        ref = db.collection("rides").addDocument(data: [
+            "title": title,
+            "driver": driver,
+            "startPoint": startPoint,
+            "destinationPoint": destinationPoint,
+            "startPointCoords": sourcePointCoords,
+            "destinationPointCoords": destinationPointCoords,
+            "rideDate": rideDate,
+            "creationDate": Date()
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
     }
 }
