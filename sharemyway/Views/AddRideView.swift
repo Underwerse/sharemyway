@@ -140,7 +140,6 @@ struct AddRideView: View {
     }
     
     private func addRideAction() {
-        
         saveToFirebase()
     }
     
