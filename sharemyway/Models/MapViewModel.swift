@@ -57,8 +57,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         var driver = ""
         var startPoint = ""
         var destinationPoint = ""
-        let startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
-        let destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
+        var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
+        var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
         var rideDate = Date()
         var creationDate = Date()
         
@@ -101,13 +101,13 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                     }
                     
                     // Retrieve coordinates from the document
-                    if let startPointCoords = document.get("startPointCoords") {
-                        let startPointCoords = startPointCoords as! GeoPoint
-                        let startPointCoord = CLLocationCoordinate2D(latitude: startPointCoords.latitude, longitude: startPointCoords.longitude)
+                    if let startPointCoordsDoc = document.get("startPointCoords") {
+                        let startPointCoords = startPointCoordsDoc as! GeoPoint
+                        startPointCoord = CLLocationCoordinate2D(latitude: startPointCoords.latitude, longitude: startPointCoords.longitude)
                     }
                     if let destinationPointCoords = document.get("destinationPointCoords") {
                         let destinationPointCoords = destinationPointCoords as! GeoPoint
-                        let destinationPointCoord = CLLocationCoordinate2D(latitude: destinationPointCoords.latitude, longitude: destinationPointCoords.longitude)
+                        destinationPointCoord = CLLocationCoordinate2D(latitude: destinationPointCoords.latitude, longitude: destinationPointCoords.longitude)
                     }
                     
                     self.ridesFirebase.append(RidesModel(title: title, driver: driver, startPoint: startPoint, destinationPoint: destinationPoint, startPointCoord: startPointCoord, destinationPointCoord: destinationPointCoord, rideDate: rideDate, creationDate: creationDate))
