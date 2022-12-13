@@ -42,7 +42,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // Rides array
     @Published var ridesFirebase: [RidesModel] = []
-    
+        
     override init() {
         super.init()
         locationManager.delegate = self
@@ -191,10 +191,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             
             let sourcePin = MKPointAnnotation()
             sourcePin.coordinate = sourceCoordinate
-            sourcePin.title = ride.startPoint
+            sourcePin.title = "From \(ride.startPoint!) to \(ride.destinationPoint!)"
             sourcePin.subtitle = "start"
             mapView.addAnnotation(sourcePin)
-            
+
             let destinationPin = MKPointAnnotation()
             destinationPin.coordinate = destinationCoordinate
             destinationPin.title = ride.destinationPoint
