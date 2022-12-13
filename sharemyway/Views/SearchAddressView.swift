@@ -10,10 +10,12 @@ import MapKit
 
 struct SearchAddressView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @StateObject var locationManager: LocationManager = .init()
     
     // Mark: Navigation tag to push View to MapView
     @State var navigationTag: String?
+    @State private var isShowingPlacesList = true
     
     @Binding var startPoint: String
     @Binding var destinationPoint: String
@@ -66,7 +68,7 @@ struct SearchAddressView: View {
             .background(Color.white)
             .padding(.vertical, 10)
             
-            if let places = locationManager.fetchedPlaces, !places.isEmpty {
+            if let places = locationManager.fetchedPlaces, !places.isEmpty && isShowingPlacesList {
                 List {
                     ForEach(places, id: \.self) { place in
                         Button {
@@ -76,6 +78,9 @@ struct SearchAddressView: View {
                                 
                                 locationManager.addDraggablePin(coordinate: coordinate)
                                 locationManager.updatePlacemark(location: .init(latitude: coordinate.latitude, longitude: coordinate.longitude))
+                            }
+                            withAnimation {
+                                isShowingPlacesList.toggle()
                             }
                         } label: {
                             HStack(spacing: 15) {
@@ -98,7 +103,7 @@ struct SearchAddressView: View {
                     }
                 }
                 .listStyle(.plain)
-                .frame(maxWidth: .infinity, maxHeight: 400)
+                .frame(maxWidth: .infinity, maxHeight: 200)
             } else {
                 // Mark: Live location button
                 Button {
@@ -148,6 +153,8 @@ struct MapViewSelection: View {
     
     @State var startPointConfirmed = false
     @State var destinationPointConfirmed = false
+//    @FocusState private var focusedField : Field?
+    
     @Binding var startPoint: String
     @Binding var destinationPoint: String
     @Binding var startPointCoord: CLLocationCoordinate2D
