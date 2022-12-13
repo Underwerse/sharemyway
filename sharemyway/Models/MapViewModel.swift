@@ -55,6 +55,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         let db = Firestore.firestore()
         var title = ""
         var driver = ""
+        var creatorPhone = ""
         var startPoint = ""
         var destinationPoint = ""
         var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
@@ -76,6 +77,11 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                     // Retrieve driver from the document
                     if let driverDoc = document.get("driver") {
                         driver = driverDoc as! String
+                    }
+                    
+                    // Retrieve driver's phone from the document
+                    if let creatorPhoneDoc = document.get("creatorPhone") {
+                        creatorPhone = creatorPhoneDoc as! String
                     }
                     
                     // Retrieve start point from the document
@@ -110,7 +116,19 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                         destinationPointCoord = CLLocationCoordinate2D(latitude: destinationPointCoords.latitude, longitude: destinationPointCoords.longitude)
                     }
                     
-                    self.ridesFirebase.append(RidesModel(title: title, driver: driver, startPoint: startPoint, destinationPoint: destinationPoint, startPointCoord: startPointCoord, destinationPointCoord: destinationPointCoord, rideDate: rideDate, creationDate: creationDate))
+                    self.ridesFirebase.append(
+                        RidesModel(
+                            title: title,
+                            driver: driver,
+                            creatorPhone: creatorPhone,
+                            startPoint: startPoint,
+                            destinationPoint: destinationPoint,
+                            startPointCoord: startPointCoord,
+                            destinationPointCoord: destinationPointCoord,
+                            rideDate: rideDate,
+                            creationDate: creationDate
+                        )
+                    )
                 }
                 
                 self.loadRidesToCoreData()
@@ -128,7 +146,21 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         for ride in self.ridesFirebase {
             
-            persistenceController.addRide(title: ride.title, driver: ride.driver, creatorAvatar: "driver", startPoint: ride.startPoint, destinationPoint: ride.destinationPoint, startPointCoordLat: ride.startPointCoord.latitude, startPointCoordLon: ride.startPointCoord.longitude, destinationPointCoordLat: ride.destinationPointCoord.latitude, destinationPointCoordLon: ride.destinationPointCoord.longitude, rideDate: ride.rideDate, creationDate: ride.creationDate, context: managedObjectContext)
+            persistenceController.addRide(
+                title: ride.title,
+                driver: ride.driver,
+                creatorAvatar: "driver",
+                creatorPhone: ride.creatorPhone,
+                startPoint: ride.startPoint,
+                destinationPoint: ride.destinationPoint,
+                startPointCoordLat: ride.startPointCoord.latitude,
+                startPointCoordLon: ride.startPointCoord.longitude,
+                destinationPointCoordLat: ride.destinationPointCoord.latitude,
+                destinationPointCoordLon: ride.destinationPointCoord.longitude,
+                rideDate: ride.rideDate,
+                creationDate: ride.creationDate,
+                context: managedObjectContext
+            )
         }
         
         print("Rides have been added to CoreData")

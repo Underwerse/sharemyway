@@ -13,7 +13,7 @@ struct RideCard: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
-                .frame(height: 200)
+                .frame(height: 230)
                 .foregroundColor(Color("CardBgrColor"))
                 .shadow(color: .gray, radius: 5, x: 5, y: 5)
             HStack(alignment: .top) {
@@ -33,6 +33,21 @@ struct RideCard: View {
                         .padding(.bottom, 1)
                         
                         HStack(alignment: .top) {
+                            Image(systemName: "person.fill")
+                                .bold()
+                            Text(ride.driver!)
+                                
+                        }
+                        .padding(.bottom, 1)
+                        
+                        HStack(alignment: .top) {
+                            Image(systemName: "phone.bubble.left.fill")
+                            Text(ride.creatorPhone!)
+                                
+                        }
+                        .padding(.bottom, 1)
+                        
+                        HStack(alignment: .top) {
                             Text("From:")
                                 .bold()
                             Text(ride.startPoint!)
@@ -47,8 +62,7 @@ struct RideCard: View {
                         .padding(.bottom, 1)
                         
                         HStack {
-                            Text("Ride date:")
-                                .bold()
+                            Image(systemName: "calendar.badge.clock")
                             Text(dateToString(date: ride.rideDate!))
                         }
                     }

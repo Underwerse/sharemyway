@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 import FirebaseCore
 import FirebaseFirestore
+import iPhoneNumberField
 
 struct AddRideView: View {
     
@@ -18,6 +19,7 @@ struct AddRideView: View {
     @State var btnLabel = ""
     @State var title = ""
     @State var driver = ""
+    @State var creatorPhone = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
     @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
@@ -35,20 +37,30 @@ struct AddRideView: View {
     var body: some View {
         NavigationView {
             Form {
-                Text("Create new ride")
-                    .font(.largeTitle)
-                    .padding()
-                HStack {
-                    Text("Ride title: ")
-                        .font(.title3.bold())
-                        .multilineTextAlignment(.leading)
-                    TextField("Ride title", text: $title)
-                }
-                HStack {
-                    Text("Driver name: ")
-                        .font(.title3.bold())
-                        .multilineTextAlignment(.leading)
-                    TextField("Driver name", text: $driver)
+                Group {
+                    Text("Create new ride")
+                        .font(.largeTitle)
+                        .padding()
+                    HStack {
+                        Text("Ride title: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        TextField("Ride title", text: $title)
+                    }
+                    HStack {
+                        Text("Driver name: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        TextField("Driver name", text: $driver)
+                    }
+                    HStack {
+                        Text("Phone num: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        iPhoneNumberField("Phone number", text: $creatorPhone)
+                            .flagHidden(false)
+                            .flagSelectable(true)
+                    }
                 }
                 VStack(alignment: .leading) {
                     Button("Pick start point") {
@@ -119,7 +131,6 @@ struct AddRideView: View {
                         .padding()
                     Spacer()
                 }
-                Spacer()
                 Button {
                     addRideAction()
                     //                    tabSelection = 2
@@ -153,6 +164,7 @@ struct AddRideView: View {
         ref = db.collection("rides").addDocument(data: [
             "title": title,
             "driver": driver,
+            "creatorPhone": creatorPhone,
             "startPoint": startPoint,
             "destinationPoint": destinationPoint,
             "startPointCoords": sourcePointCoords,
