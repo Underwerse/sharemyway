@@ -17,11 +17,12 @@ struct AddRideView: View {
     @Environment(\.dismiss) var dismiss
     // Core Data object
     @Environment(\.managedObjectContext) var managedObjectContext
+    let persistenceController = PersistenceController.shared
     
     @State var btnLabel = ""
     @State var title = ""
     @State var driver = ""
-    @State var creatorPhone = ""
+    @State var creatorPhone = "+358"
     @State var startPoint = ""
     @State var destinationPoint = ""
     @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
@@ -62,6 +63,7 @@ struct AddRideView: View {
                         iPhoneNumberField("Phone number", text: $creatorPhone)
                             .flagHidden(false)
                             .flagSelectable(true)
+                            
                     }
                 }
                 VStack(alignment: .leading) {
@@ -153,7 +155,22 @@ struct AddRideView: View {
     }
     
     private func addRideAction() {
-        PersistenceController().addRide(documentID: "", title: title, driver: driver, creatorAvatar: "driver", creatorPhone: creatorPhone, startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
+        persistenceController.addRide(
+            documentID: "",
+            title: title,
+            driver: driver,
+            creatorAvatar: "driver",
+            creatorPhone: creatorPhone,
+            startPoint: startPoint,
+            destinationPoint: destinationPoint,
+            startPointCoordLat: startPointCoord.latitude,
+            startPointCoordLon: startPointCoord.longitude,
+            destinationPointCoordLat: destinationPointCoord.latitude,
+            destinationPointCoordLon: destinationPointCoord.longitude,
+            rideDate: rideDate,
+            creationDate: Date(),
+            context: managedObjectContext
+        )
         
         saveToFirebase()
     }
