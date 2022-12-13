@@ -12,7 +12,9 @@ import FirebaseFirestore
 import iPhoneNumberField
 
 struct AddRideView: View {
-    
+    private enum Field: Int, CaseIterable {
+        case title, driver, creatorPhone
+    }
     // Variable for closing the view
     @Environment(\.dismiss) var dismiss
     // Core Data object
@@ -34,30 +36,38 @@ struct AddRideView: View {
     // Doc for Firebase
     @State var doc = ""
     @State var documentID = ""
+    
     @State var isPresented = false
+    @FocusState private var focusedField : Field?
     
     // TabView selection var
-    //    @Binding var tabSelection: Int
+//    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationView {
-            Form {
+//            Form {
+            VStack {
                 Group {
                     Text("Create new ride")
                         .font(.largeTitle)
                         .padding()
+                    
                     HStack {
                         Text("Ride title: ")
                             .font(.title3.bold())
                             .multilineTextAlignment(.leading)
                         TextField("Ride title", text: $title)
+                            .focused($focusedField, equals: .title)
                     }
+                    
                     HStack {
                         Text("Driver name: ")
                             .font(.title3.bold())
                             .multilineTextAlignment(.leading)
                         TextField("Driver name", text: $driver)
+                            .focused($focusedField, equals: .driver)
                     }
+                    
                     HStack {
                         Text("Phone num: ")
                             .font(.title3.bold())
@@ -68,44 +78,49 @@ struct AddRideView: View {
 //                            .flagSelectable(true)
 //                            .defaultRegion("Suomi")
 //                            .prefixHidden(true)
+                            .focused($focusedField, equals: .creatorPhone)
                     }
                 }
                 
-                VStack(alignment: .leading) {
-                    Button("Pick start point") {
-                        self.isModal.toggle()
-                        self.btnLabel = "start"
+                Group {
+                    VStack(alignment: .leading) {
+                        Button("Pick start point") {
+                            self.isModal.toggle()
+                            self.btnLabel = "start"
+                            focusedField = nil
+                        }
+                        .sheet(isPresented: $isModal) {
+                            SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
+                        }
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: 300)
+                        .padding(.vertical, 12)
+                        .background {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.blue)
+                        }
+                        .overlay(alignment: .trailing) {
+                            Image(systemName: "arrow.right")
+                                .font(.title3.bold())
+                                .padding(.trailing)
+                        }
+                        .foregroundColor(.white)
                     }
-                    .sheet(isPresented: $isModal) {
-                        SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
-                    }
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: 300)
-                    .padding(.vertical, 12)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(.blue)
-                    }
-                    .overlay(alignment: .trailing) {
-                        Image(systemName: "arrow.right")
+                    
+                    HStack {
+                        Text("From: ")
                             .font(.title3.bold())
-                            .padding(.trailing)
+                            .multilineTextAlignment(.leading)
+                            .padding()
+                        Text(startPoint)
                     }
-                    .foregroundColor(.white)
-                }
-                
-                HStack {
-                    Text("From: ")
-                        .font(.title3.bold())
-                        .multilineTextAlignment(.leading)
-                        .padding()
-                    Text(startPoint)
                 }
                 
                 VStack(alignment: .leading) {
                     Button("Pick destination point") {
                         self.isModal.toggle()
                         self.btnLabel = "destination"
+                        focusedField = nil
                     }
                     .sheet(isPresented: $isModal) {
                         SearchAddressView(startPoint: $startPoint, destinationPoint: $destinationPoint, startPointCoord: $startPointCoord, destinationPointCoord: $destinationPointCoord, btnLabel: $btnLabel)
@@ -160,6 +175,16 @@ struct AddRideView: View {
                 }
                 .disabled( (title != "" && driver != "" && startPoint != "" && destinationPoint != "") ? false : true )
             }
+            .toolbar {
+                ToolbarItem(placement: .keyboard) {
+                    Button("Hide keyboard") {
+                        focusedField = nil
+                    }
+                }
+            }
+            .padding()
+
+//            }
             
         }
         .alert("Ride has been successfully added", isPresented: $isPresented) {}
@@ -214,7 +239,40 @@ struct AddRideView: View {
                 print("Document added with ID: \(ref!.documentID)")
                 isPresented.toggle()
                 clearFormData()
+//                self.tabSelection = 1
             }
         }
     }
 }
+
+//extension AddRideView {
+//    private enum Field: Int, CaseIterable {
+//        case title, driver, creatorPhone
+//    }
+//
+//    private func focusPreviousField() {
+//        focusedField = focusedField.map {
+//            Field(rawValue: $0.rawValue - 1) ?? .title
+//        }
+//    }
+//
+//    private func focusNextField() {
+//        focusedField = focusedField.map {
+//            Field(rawValue: $0.rawValue + 1) ?? .driver
+//        }
+//    }
+//
+//    private func canFocusPreviousField() -> Bool {
+//        guard let currentFocusedField = focusedField else {
+//            return false
+//        }
+//        return currentFocusedField.rawValue > 0
+//    }
+//
+//    private func canFocusNextField() -> Bool {
+//        guard let currentFocusedField = focusedField else {
+//            return false
+//        }
+//        return currentFocusedField.rawValue < Field.allCases.count - 1
+//    }
+//}
