@@ -11,9 +11,9 @@ struct RideCard: View {
     var ride: Ride
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        ZStack(alignment: .center) {
             RoundedRectangle(cornerRadius: 15)
-                .frame(height: 230)
+                .frame(height: 250)
                 .foregroundColor(Color("CardBgrColor"))
                 .shadow(color: .gray, radius: 5, x: 5, y: 5)
             
@@ -42,7 +42,7 @@ struct RideCard: View {
                     }
                     .padding(.bottom, 1)
                     
-                    HStack(alignment: .top) {
+                    HStack(alignment: .center) {
                         Image(ride.creatorAvatar ?? "avatar")
                             .resizable()
                             .cornerRadius(20)
