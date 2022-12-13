@@ -11,76 +11,74 @@ struct RideCard: View {
     var ride: Ride
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 15)
                 .frame(height: 230)
                 .foregroundColor(Color("CardBgrColor"))
                 .shadow(color: .gray, radius: 5, x: 5, y: 5)
-            HStack(alignment: .top) {
-                HStack(alignment: .top) {
-                    Image(ride.creatorAvatar ?? "avatar")
-                        .resizable()
-                        .cornerRadius(20)
-                        .frame(width: 30, height: 30)
+            
+            ZStack(alignment: .topLeading) {
+                HStack {
                     
-                    VStack(alignment: .leading) {
-                        HStack(alignment: .top) {
-                            Text("Title:")
-                                .bold()
-                            Text(ride.title!)
-                                
-                        }
-                        .padding(.bottom, 1)
-                        
-                        HStack(alignment: .top) {
-                            Image(systemName: "person.fill")
-                                .bold()
-                            Text(ride.driver!)
-                                
-                        }
-                        .padding(.bottom, 1)
-                        
-                        HStack(alignment: .top) {
-                            Image(systemName: "phone.bubble.left.fill")
-                            Text(ride.creatorPhone!)
-                                
-                        }
-                        .padding(.bottom, 1)
-                        
-                        HStack(alignment: .top) {
-                            Text("From:")
-                                .bold()
-                            Text(ride.startPoint!)
-                        }
-                        .padding(.bottom, 1)
-                        
-                        HStack(alignment: .top) {
-                            Text("To:")
-                                .bold()
-                            Text(ride.destinationPoint!)
-                        }
-                        .padding(.bottom, 1)
-                        
-                        HStack {
-                            Image(systemName: "calendar.badge.clock")
-                            Text(dateToString(date: ride.rideDate!))
-                        }
+                    Spacer()
+                    
+                    Button {
+                        print("like button pressed")
+                    } label: {
+                        Image("like_empty")
+                            .resizable(resizingMode: .stretch)
+                            .frame(width: 30, height: 30)
+                            .padding(10)
+                            .background(Color(hue: 0.0, saturation: 0.0, brightness: 1.0, opacity: 0.0))
+                    }
+                    .frame(width: 30.0, height: 30.0)
+                }
+                VStack(alignment: .leading) {
+                    
+                    HStack(alignment: .top) {
+                        Text("Title:")
+                            .bold()
+                        Text(ride.title!)
                     }
                     .padding(.bottom, 1)
+                    
+                    HStack(alignment: .top) {
+                        Image(ride.creatorAvatar ?? "avatar")
+                            .resizable()
+                            .cornerRadius(20)
+                            .frame(width: 30, height: 30)
+                        Text(ride.driver!)
+                        
+                    }
+                    .padding(.bottom, 1)
+                    
+                    HStack(alignment: .top) {
+                        Image(systemName: "phone.bubble.left.fill")
+                        Text(ride.creatorPhone!)
+                        
+                    }
+                    .padding(.bottom, 1)
+                    
+                    HStack(alignment: .top) {
+                        Text("A:")
+                            .bold()
+                        Text(ride.startPoint!)
+                    }
+                    .padding(.bottom, 1)
+                    
+                    HStack(alignment: .top) {
+                        Text("B:")
+                            .bold()
+                        Text(ride.destinationPoint!)
+                    }
+                    .padding(.bottom, 1)
+                    
+                    HStack {
+                        Image(systemName: "calendar.badge.clock")
+                        Text(dateToString(date: ride.rideDate!))
+                    }
                 }
-                .padding(.trailing, -10.0)
-//                Spacer()
-                
-                Button {
-                    print("like button pressed")
-                } label: {
-                    Image("like_empty")
-                        .resizable(resizingMode: .stretch)
-                        .frame(width: 30, height: 30)
-                        .padding(10)
-                        .background(Color(hue: 0.0, saturation: 0.0, brightness: 1.0, opacity: 0.0))
-                }
-                .frame(width: 30.0, height: 30.0)
+                .padding(.bottom, 1)
             }
             .padding()
         }

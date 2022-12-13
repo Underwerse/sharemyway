@@ -244,35 +244,3 @@ struct AddRideView: View {
         }
     }
 }
-
-//extension AddRideView {
-//    private enum Field: Int, CaseIterable {
-//        case title, driver, creatorPhone
-//    }
-//
-//    private func focusPreviousField() {
-//        focusedField = focusedField.map {
-//            Field(rawValue: $0.rawValue - 1) ?? .title
-//        }
-//    }
-//
-//    private func focusNextField() {
-//        focusedField = focusedField.map {
-//            Field(rawValue: $0.rawValue + 1) ?? .driver
-//        }
-//    }
-//
-//    private func canFocusPreviousField() -> Bool {
-//        guard let currentFocusedField = focusedField else {
-//            return false
-//        }
-//        return currentFocusedField.rawValue > 0
-//    }
-//
-//    private func canFocusNextField() -> Bool {
-//        guard let currentFocusedField = focusedField else {
-//            return false
-//        }
-//        return currentFocusedField.rawValue < Field.allCases.count - 1
-//    }
-//}
