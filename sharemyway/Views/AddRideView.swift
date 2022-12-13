@@ -33,6 +33,8 @@ struct AddRideView: View {
 
     // Doc for Firebase
     @State var doc = ""
+    @State var documentID = ""
+    @State var isPresented = false
     
     // TabView selection var
     //    @Binding var tabSelection: Int
@@ -68,6 +70,7 @@ struct AddRideView: View {
 //                            .prefixHidden(true)
                     }
                 }
+                
                 VStack(alignment: .leading) {
                     Button("Pick start point") {
                         self.isModal.toggle()
@@ -90,6 +93,7 @@ struct AddRideView: View {
                     }
                     .foregroundColor(.white)
                 }
+                
                 HStack {
                     Text("From: ")
                         .font(.title3.bold())
@@ -97,6 +101,7 @@ struct AddRideView: View {
                         .padding()
                     Text(startPoint)
                 }
+                
                 VStack(alignment: .leading) {
                     Button("Pick destination point") {
                         self.isModal.toggle()
@@ -119,6 +124,7 @@ struct AddRideView: View {
                     }
                     .foregroundColor(.white)
                 }
+                
                 HStack {
                     Text("To: ")
                         .font(.title3.bold())
@@ -137,8 +143,9 @@ struct AddRideView: View {
                         .padding()
                     Spacer()
                 }
+                
                 Button {
-                    addRideAction()
+                    saveToFirebase()
                     //                    tabSelection = 2
                 } label: {
                     Text("Add ride")
@@ -153,31 +160,18 @@ struct AddRideView: View {
                 }
                 .disabled( (title != "" && driver != "" && startPoint != "" && destinationPoint != "") ? false : true )
             }
+            
         }
+        .alert("Ride has been successfully added", isPresented: $isPresented) {}
     }
     
-    private func addRideAction() {
-        persistenceController.addRide(
-            documentID: "",
-            title: title,
-            driver: driver,
-            creatorAvatar: "driver",
-            creatorPhone: creatorPhone,
-            startPoint: startPoint,
-            destinationPoint: destinationPoint,
-            startPointCoordLat: startPointCoord.latitude,
-            startPointCoordLon: startPointCoord.longitude,
-            destinationPointCoordLat: destinationPointCoord.latitude,
-            destinationPointCoordLon: destinationPointCoord.longitude,
-            rideDate: rideDate,
-            creationDate: Date(),
-            context: managedObjectContext
-        )
-        
-        saveToFirebase()
+    private func clearFormData() {
+        self.title = ""
+        self.creatorPhone = ""
+        self.driver = ""
     }
     
-    func saveToFirebase() {
+    private func saveToFirebase() {
         let db = Firestore.firestore()
         let sourcePointCoords = GeoPoint(latitude: startPointCoord.latitude, longitude: startPointCoord.longitude)
         let destinationPointCoords = GeoPoint(latitude: destinationPointCoord.latitude, longitude: destinationPointCoord.longitude)
@@ -198,7 +192,28 @@ struct AddRideView: View {
             if let err = err {
                 print("Error adding document: \(err)")
             } else {
+                documentID = ref!.documentID
+                
+                // Save to CoreData
+                persistenceController.addRide(
+                    documentID: documentID,
+                    title: title,
+                    driver: driver,
+                    creatorAvatar: "driver",
+                    creatorPhone: creatorPhone,
+                    startPoint: startPoint,
+                    destinationPoint: destinationPoint,
+                    startPointCoordLat: startPointCoord.latitude,
+                    startPointCoordLon: startPointCoord.longitude,
+                    destinationPointCoordLat: destinationPointCoord.latitude,
+                    destinationPointCoordLon: destinationPointCoord.longitude,
+                    rideDate: rideDate,
+                    creationDate: Date(),
+                    context: managedObjectContext
+                )
                 print("Document added with ID: \(ref!.documentID)")
+                isPresented.toggle()
+                clearFormData()
             }
         }
     }
