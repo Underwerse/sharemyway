@@ -36,7 +36,7 @@ struct ShareMyWay: App {
             }
         }
         .onChange(of: scenePhase) { _ in
-            persistenceController.save()
+            persistenceController.saveContext()
         }
     }
 }

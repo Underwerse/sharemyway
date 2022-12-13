@@ -24,6 +24,7 @@ struct AddRideView: View {
     @State var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
     @State var rideDate = Date()
     @State var isModal = false
+    @State var addButtonDisabled = false
     
     // Doc for Firebase
     @State var doc = ""
@@ -129,17 +130,16 @@ struct AddRideView: View {
                         .padding(.vertical, 12)
                         .background {
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(.green)
+                                .fill( !(title != "" && driver != "" && startPoint != "" && destinationPoint != "") ? .gray : .green)
                         }
                         .foregroundColor(.white)
                 }
-                
+                .disabled( (title != "" && driver != "" && startPoint != "" && destinationPoint != "") ? false : true )
             }
         }
     }
     
     private func addRideAction() {
-        
         saveToFirebase()
     }
     

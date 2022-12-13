@@ -43,8 +43,6 @@ struct PersistenceController {
         
         let ride = Ride(context: container.viewContext)
         
-        print("ride date to add: \(rideDate)")
-        
         ride.id = UUID()
         ride.title = title
         ride.driver = driver
@@ -59,10 +57,10 @@ struct PersistenceController {
         ride.creationDate = creationDate
         
         print("SAVE to context")
-        save()
+        saveContext()
     }
     
-    func save() {
+    func saveContext() {
         let context = container.viewContext
 
         if context.hasChanges {

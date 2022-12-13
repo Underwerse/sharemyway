@@ -199,10 +199,6 @@ struct MapViewSelection: View {
                     .padding(.vertical, 10)
                     
                     Button {
-                        guard let LAT = place.location?.coordinate.latitude else {return}
-                        print("LAT: \(LAT)")
-                        guard let LON = place.location?.coordinate.longitude else {return}
-                        print("LON: \(LON)")
                         guard let LOCALITY = place.locality else {return}
                         guard let ADDRESS = place.name else {return}
                                                 
