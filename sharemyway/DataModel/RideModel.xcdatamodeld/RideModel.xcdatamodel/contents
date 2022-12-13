@@ -3,9 +3,11 @@
     <entity name="Ride" representedClassName="Ride" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="creatorAvatar" attributeType="String" defaultValueString="driver"/>
+        <attribute name="creatorPhone" attributeType="String"/>
         <attribute name="destinationPoint" attributeType="String"/>
         <attribute name="destinationPointCoordLat" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="destinationPointCoordLon" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="documentID" attributeType="String"/>
         <attribute name="driver" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="rideDate" attributeType="Date" usesScalarValueType="NO"/>

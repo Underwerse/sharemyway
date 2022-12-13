@@ -13,10 +13,16 @@ struct RideDetailView: View {
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .center) {
+                
+                Spacer()
+                
                 Image(ride.creatorAvatar!)
                     .resizable()
                     .cornerRadius(20)
                     .frame(width: 150, height: 150)
+                
+                Spacer()
+                
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
                         Text("Driver:")
@@ -25,18 +31,29 @@ struct RideDetailView: View {
                         
                     }
                     .padding(.bottom, 1)
+                    
+                    HStack(alignment: .top) {
+                        Text("Driver's phone num:")
+                            .bold()
+                        Text(ride.creatorPhone!)
+                        
+                    }
+                    .padding(.bottom, 1)
+                    
                     HStack(alignment: .top) {
                         Text("From:")
                             .bold()
                         Text(ride.startPoint!)
                     }
                     .padding(.bottom, 1)
+                    
                     HStack(alignment: .top) {
                         Text("To:")
                             .bold()
                         Text(ride.destinationPoint!)
                     }
                     .padding(.bottom, 1)
+                    
                     HStack(alignment: .top) {
                         Text("Ride date:")
                             .bold()
@@ -45,6 +62,8 @@ struct RideDetailView: View {
                     .padding(.bottom, 1)
                 }
                 .padding(.leading)
+                
+                Spacer()
             }
         }
         .navigationTitle("Ride detail")
