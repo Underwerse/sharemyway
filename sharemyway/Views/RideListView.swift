@@ -13,7 +13,7 @@ struct RideListView: View {
     @FetchRequest(
         entity: Ride.entity(),
         sortDescriptors: [
-            NSSortDescriptor(keyPath: \Ride.rideDate, ascending: true)
+            NSSortDescriptor(keyPath: \Ride.rideDate, ascending: false)
         ]
     ) var rides: FetchedResults<Ride>
     
