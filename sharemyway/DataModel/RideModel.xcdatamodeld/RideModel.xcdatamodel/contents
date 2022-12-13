@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Ride" representedClassName="Ride" syncable="YES" codeGenerationType="class">
-        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="creatorAvatar" optional="YES" attributeType="String" defaultValueString="driver"/>
-        <attribute name="destinationPoint" optional="YES" attributeType="String"/>
-        <attribute name="destinationPointCoordLat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="destinationPointCoordLon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="driver" optional="YES" attributeType="String"/>
+        <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="creatorAvatar" attributeType="String" defaultValueString="driver"/>
+        <attribute name="creatorPhone" attributeType="String"/>
+        <attribute name="destinationPoint" attributeType="String"/>
+        <attribute name="destinationPointCoordLat" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="destinationPointCoordLon" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="documentID" attributeType="String"/>
+        <attribute name="driver" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="rideDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="startPoint" optional="YES" attributeType="String"/>
-        <attribute name="startPointCoordLat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="startPointCoordLon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="rideDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startPoint" attributeType="String"/>
+        <attribute name="startPointCoordLat" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="startPointCoordLon" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
     </entity>
 </model>

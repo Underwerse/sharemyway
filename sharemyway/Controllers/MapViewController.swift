@@ -53,6 +53,9 @@ struct MapViewController: UIViewRepresentable {
                 return pinAnnotation
             }
         }
+        
+        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {}
+
     }
 }
 

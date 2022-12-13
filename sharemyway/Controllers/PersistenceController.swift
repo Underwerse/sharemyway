@@ -39,15 +39,15 @@ struct PersistenceController {
         }
     }
     
-    func addRide(title: String, driver: String, creatorAvatar: String, startPoint: String, destinationPoint: String, startPointCoordLat: Double, startPointCoordLon: Double, destinationPointCoordLat: Double, destinationPointCoordLon: Double, rideDate: Date, creationDate: Date, context: NSManagedObjectContext) {
+    func addRide(documentID: String, title: String, driver: String, creatorAvatar: String, creatorPhone: String, startPoint: String, destinationPoint: String, startPointCoordLat: Double, startPointCoordLon: Double, destinationPointCoordLat: Double, destinationPointCoordLon: Double, rideDate: Date, creationDate: Date, context: NSManagedObjectContext) {
         
         let ride = Ride(context: container.viewContext)
         
-        print("ride date to add: \(rideDate)")
-        
         ride.id = UUID()
+        ride.documentID = documentID
         ride.title = title
         ride.driver = driver
+        ride.creatorPhone = creatorPhone
         ride.creatorAvatar = creatorAvatar
         ride.startPoint = startPoint
         ride.destinationPoint = destinationPoint
@@ -59,10 +59,10 @@ struct PersistenceController {
         ride.creationDate = creationDate
         
         print("SAVE to context")
-        save()
+        saveContext()
     }
     
-    func save() {
+    func saveContext() {
         let context = container.viewContext
 
         if context.hasChanges {

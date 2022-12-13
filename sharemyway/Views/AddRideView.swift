@@ -9,22 +9,28 @@ import SwiftUI
 import MapKit
 import FirebaseCore
 import FirebaseFirestore
+import iPhoneNumberField
 
 struct AddRideView: View {
     
     // Variable for closing the view
     @Environment(\.dismiss) var dismiss
+    // Core Data object
+    @Environment(\.managedObjectContext) var managedObjectContext
+    let persistenceController = PersistenceController.shared
     
     @State var btnLabel = ""
     @State var title = ""
     @State var driver = ""
+    @State var creatorPhone = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
     @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
     @State var destinationPointCoord = CLLocationCoordinate2D(latitude: 60.21378, longitude: 24.73826)
     @State var rideDate = Date()
     @State var isModal = false
-    
+    @State var addButtonDisabled = false
+
     // Doc for Firebase
     @State var doc = ""
     
@@ -34,20 +40,33 @@ struct AddRideView: View {
     var body: some View {
         NavigationView {
             Form {
-                Text("Create new ride")
-                    .font(.largeTitle)
-                    .padding()
-                HStack {
-                    Text("Ride title: ")
-                        .font(.title3.bold())
-                        .multilineTextAlignment(.leading)
-                    TextField("Ride title", text: $title)
-                }
-                HStack {
-                    Text("Driver name: ")
-                        .font(.title3.bold())
-                        .multilineTextAlignment(.leading)
-                    TextField("Driver name", text: $driver)
+                Group {
+                    Text("Create new ride")
+                        .font(.largeTitle)
+                        .padding()
+                    HStack {
+                        Text("Ride title: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        TextField("Ride title", text: $title)
+                    }
+                    HStack {
+                        Text("Driver name: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        TextField("Driver name", text: $driver)
+                    }
+                    HStack {
+                        Text("Phone num: ")
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.leading)
+                        iPhoneNumberField("(040) 123-4567", text: $creatorPhone)
+                            .flagHidden(true)
+                            .maximumDigits(11)
+//                            .flagSelectable(true)
+//                            .defaultRegion("Suomi")
+//                            .prefixHidden(true)
+                    }
                 }
                 VStack(alignment: .leading) {
                     Button("Pick start point") {
@@ -118,7 +137,6 @@ struct AddRideView: View {
                         .padding()
                     Spacer()
                 }
-                Spacer()
                 Button {
                     addRideAction()
                     //                    tabSelection = 2
@@ -129,16 +147,32 @@ struct AddRideView: View {
                         .padding(.vertical, 12)
                         .background {
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(.green)
+                                .fill( !(title != "" && driver != "" && startPoint != "" && destinationPoint != "") ? .gray : .green)
                         }
                         .foregroundColor(.white)
                 }
-                
+                .disabled( (title != "" && driver != "" && startPoint != "" && destinationPoint != "") ? false : true )
             }
         }
     }
     
     private func addRideAction() {
+        persistenceController.addRide(
+            documentID: "",
+            title: title,
+            driver: driver,
+            creatorAvatar: "driver",
+            creatorPhone: creatorPhone,
+            startPoint: startPoint,
+            destinationPoint: destinationPoint,
+            startPointCoordLat: startPointCoord.latitude,
+            startPointCoordLon: startPointCoord.longitude,
+            destinationPointCoordLat: destinationPointCoord.latitude,
+            destinationPointCoordLon: destinationPointCoord.longitude,
+            rideDate: rideDate,
+            creationDate: Date(),
+            context: managedObjectContext
+        )
         
         saveToFirebase()
     }
@@ -153,6 +187,7 @@ struct AddRideView: View {
         ref = db.collection("rides").addDocument(data: [
             "title": title,
             "driver": driver,
+            "creatorPhone": creatorPhone,
             "startPoint": startPoint,
             "destinationPoint": destinationPoint,
             "startPointCoords": sourcePointCoords,
