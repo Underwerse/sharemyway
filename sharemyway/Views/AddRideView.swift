@@ -111,8 +111,8 @@ struct AddRideView: View {
                         Text("From: ")
                             .font(.title3.bold())
                             .multilineTextAlignment(.leading)
-                            .padding()
                         Text(startPoint)
+                        Spacer()
                     }
                 }
                 
@@ -144,8 +144,8 @@ struct AddRideView: View {
                     Text("To: ")
                         .font(.title3.bold())
                         .multilineTextAlignment(.leading)
-                        .padding()
                     Text(destinationPoint)
+                    Spacer()
                 }
                 VStack(alignment: .leading) {
                     DatePicker(
@@ -155,7 +155,6 @@ struct AddRideView: View {
                                 .font(.title3.bold())
                                 .multilineTextAlignment(.leading)
                         }
-                        .padding()
                     Spacer()
                 }
                 
@@ -236,7 +235,6 @@ struct AddRideView: View {
                     creationDate: Date(),
                     context: managedObjectContext
                 )
-                print("Document added with ID: \(ref!.documentID)")
                 isPresented.toggle()
                 clearFormData()
 //                self.tabSelection = 1

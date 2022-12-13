@@ -58,7 +58,6 @@ struct PersistenceController {
         ride.rideDate = rideDate
         ride.creationDate = creationDate
         
-        print("SAVE to context")
         saveContext()
     }
     
@@ -84,7 +83,6 @@ struct PersistenceController {
                 guard let objectData = object as? NSManagedObject else {continue}
                 PersistenceController.shared.container.viewContext.delete(objectData)
             }
-            print("CoreData has been cleared")
         } catch let error {
             print("Detele all data in \(entity) error :", error)
         }

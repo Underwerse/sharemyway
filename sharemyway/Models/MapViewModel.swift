@@ -71,7 +71,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 for document in querySnapshot!.documents {
                     
                     // Retrieve documentID from the document
-                    print("DOC ID from Firebase: \(document.documentID)")
                     documentID = document.documentID
                     
                     // Retrieve title from the document
@@ -147,13 +146,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         persistenceController.deleteAllData("Ride")
         
-        print("ridesFirebase ARR length: \(self.ridesFirebase.count)")
-        print("START adding rides to CoreData")
-        
         for ride in self.ridesFirebase {
-            
-            print("RIDE before add to CoreData: \(ride)")
-            
             persistenceController.addRide(
                 documentID: ride.documentID,
                 title: ride.title,
@@ -171,8 +164,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 context: managedObjectContext
             )
         }
-        
-        print("Rides have been added to CoreData")
     }
     
     // Draw rides
@@ -182,9 +173,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         mapView.removeOverlays(mapView.overlays)
         
         for ride in rides {
-            
-            print("RIDE fetched from CoreData")
-            print(ride)
             
             let sourceCoordinate = CLLocationCoordinate2D(latitude: ride.startPointCoordLat, longitude: ride.startPointCoordLon)
             let destinationCoordinate = CLLocationCoordinate2D(latitude: ride.destinationPointCoordLat, longitude: ride.destinationPointCoordLon)

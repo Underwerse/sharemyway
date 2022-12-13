@@ -39,25 +39,19 @@ struct RideListView: View {
     }
     
     private func deleteRide(offsets: IndexSet) {
-        print("DELETE from CoreData")
         
         withAnimation {
             
             // Delete from CoreData
             offsets.map { rides[$0] }.forEach(managedObjectContext.delete)
-            print("ride deleted from CoreData")
             // Delete from Firebase
             let db = Firestore.firestore()
             offsets.map { rides[$0] }.forEach { ride in
-                print("RIDE to be deleted: \(ride)")
                 guard let rideID = ride.documentID else { return }
-                print("rideID: \(rideID)")
                 db.collection("rides").document(rideID).delete() { err in
                     if let err = err {
                         print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
+                    } else {}
                 }
             }
             
