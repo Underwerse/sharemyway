@@ -32,7 +32,7 @@ struct AddRideView: View {
     @State var rideDate = Date()
     @State var isModal = false
     @State var addButtonDisabled = false
-
+    
     // Doc for Firebase
     @State var doc = ""
     @State var documentID = ""
@@ -41,11 +41,11 @@ struct AddRideView: View {
     @FocusState private var focusedField : Field?
     
     // TabView selection var
-//    @Binding var tabSelection: Int
+    //    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationView {
-//            Form {
+            //            Form {
             VStack {
                 Group {
                     Text("Create new ride")
@@ -57,6 +57,7 @@ struct AddRideView: View {
                             .font(.title3.bold())
                             .multilineTextAlignment(.leading)
                         TextField("Ride title", text: $title)
+                            .font(.title2)
                             .focused($focusedField, equals: .title)
                     }
                     
@@ -65,6 +66,7 @@ struct AddRideView: View {
                             .font(.title3.bold())
                             .multilineTextAlignment(.leading)
                         TextField("Driver name", text: $driver)
+                            .font(.title2)
                             .focused($focusedField, equals: .driver)
                     }
                     
@@ -75,9 +77,7 @@ struct AddRideView: View {
                         iPhoneNumberField("(040) 123-4567", text: $creatorPhone)
                             .flagHidden(true)
                             .maximumDigits(11)
-//                            .flagSelectable(true)
-//                            .defaultRegion("Suomi")
-//                            .prefixHidden(true)
+                            .font(UIFont(size: 20, weight: .light, design: .monospaced))
                             .focused($focusedField, equals: .creatorPhone)
                     }
                 }
@@ -182,8 +182,8 @@ struct AddRideView: View {
                 }
             }
             .padding()
-
-//            }
+            
+            //            }
             
         }
         .alert("Ride has been successfully added", isPresented: $isPresented) {}
@@ -237,7 +237,7 @@ struct AddRideView: View {
                 )
                 isPresented.toggle()
                 clearFormData()
-//                self.tabSelection = 1
+                //                self.tabSelection = 1
             }
         }
     }

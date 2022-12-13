@@ -38,7 +38,7 @@ struct RideCard: View {
                     HStack(alignment: .top) {
                         Text("Title:")
                             .bold()
-                        Text(ride.title!)
+                        Text(ride.title ?? "Untitled")
                     }
                     .padding(.bottom, 1)
                     
