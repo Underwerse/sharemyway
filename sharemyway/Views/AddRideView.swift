@@ -60,7 +60,7 @@ struct AddRideView: View {
                         Text("Phone num: ")
                             .font(.title3.bold())
                             .multilineTextAlignment(.leading)
-                        iPhoneNumberField(text: $creatorPhone)
+                        iPhoneNumberField("(040) 123-4567", text: $creatorPhone)
                             .flagHidden(true)
                             .maximumDigits(11)
 //                            .flagSelectable(true)
