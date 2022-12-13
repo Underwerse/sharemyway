@@ -191,7 +191,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             
             let sourcePin = MKPointAnnotation()
             sourcePin.coordinate = sourceCoordinate
-            sourcePin.title = ride.startPoint
+            sourcePin.title = "From \(ride.startPoint!) to \(ride.destinationPoint!)"
             sourcePin.subtitle = "start"
             mapView.addAnnotation(sourcePin)
             
