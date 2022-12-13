@@ -18,6 +18,8 @@ struct RideListView: View {
         ]
     ) var rides: FetchedResults<Ride>
     
+    @State var isPresented = false
+    
     var body: some View {
         NavigationView {
             List {
@@ -33,6 +35,7 @@ struct RideListView: View {
             .navigationTitle("ShareMyWay!")
         }
         .navigationViewStyle(.stack)
+        .alert("Ride has been successfully deleted", isPresented: $isPresented) {}
     }
     
     private func deleteRide(offsets: IndexSet) {
@@ -59,9 +62,8 @@ struct RideListView: View {
             }
             
             saveContext()
+            isPresented.toggle()
         }
-        
-        
     }
     
     func saveContext() {
