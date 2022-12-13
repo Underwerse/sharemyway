@@ -15,6 +15,8 @@ struct AddRideView: View {
     
     // Variable for closing the view
     @Environment(\.dismiss) var dismiss
+    // Core Data object
+    @Environment(\.managedObjectContext) var managedObjectContext
     
     @State var btnLabel = ""
     @State var title = ""
@@ -27,7 +29,7 @@ struct AddRideView: View {
     @State var rideDate = Date()
     @State var isModal = false
     @State var addButtonDisabled = false
-    
+
     // Doc for Firebase
     @State var doc = ""
     
@@ -151,6 +153,8 @@ struct AddRideView: View {
     }
     
     private func addRideAction() {
+        PersistenceController().addRide(documentID: "", title: title, driver: driver, creatorAvatar: "driver", creatorPhone: creatorPhone, startPoint: startPoint, destinationPoint: destinationPoint, startPointCoordLat: startPointCoord.latitude, startPointCoordLon: startPointCoord.longitude, destinationPointCoordLat: destinationPointCoord.latitude, destinationPointCoordLon: destinationPointCoord.longitude, rideDate: rideDate, creationDate: Date(), context: managedObjectContext)
+        
         saveToFirebase()
     }
     

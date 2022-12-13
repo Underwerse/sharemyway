@@ -39,11 +39,12 @@ struct PersistenceController {
         }
     }
     
-    func addRide(title: String, driver: String, creatorAvatar: String, creatorPhone: String, startPoint: String, destinationPoint: String, startPointCoordLat: Double, startPointCoordLon: Double, destinationPointCoordLat: Double, destinationPointCoordLon: Double, rideDate: Date, creationDate: Date, context: NSManagedObjectContext) {
+    func addRide(documentID: String, title: String, driver: String, creatorAvatar: String, creatorPhone: String, startPoint: String, destinationPoint: String, startPointCoordLat: Double, startPointCoordLon: Double, destinationPointCoordLat: Double, destinationPointCoordLon: Double, rideDate: Date, creationDate: Date, context: NSManagedObjectContext) {
         
         let ride = Ride(context: container.viewContext)
         
         ride.id = UUID()
+        ride.documentID = documentID
         ride.title = title
         ride.driver = driver
         ride.creatorPhone = creatorPhone

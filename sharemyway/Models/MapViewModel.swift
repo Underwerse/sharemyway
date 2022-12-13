@@ -53,6 +53,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     // Get rides from Firebase
     func getRidesFromFirebase() {
         let db = Firestore.firestore()
+        var documentID = ""
         var title = ""
         var driver = ""
         var creatorPhone = ""
@@ -68,6 +69,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
+                    
+                    // Retrieve documentID from the document
+                    print("DOC ID from Firebase: \(document.documentID)")
+                    documentID = document.documentID
                     
                     // Retrieve title from the document
                     if let titleDoc = document.get("title") {
@@ -118,6 +123,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                     
                     self.ridesFirebase.append(
                         RidesModel(
+                            documentID: documentID,
                             title: title,
                             driver: driver,
                             creatorPhone: creatorPhone,
@@ -146,7 +152,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         for ride in self.ridesFirebase {
             
+            print("RIDE before add to CoreData: \(ride)")
+            
             persistenceController.addRide(
+                documentID: ride.documentID,
                 title: ride.title,
                 driver: ride.driver,
                 creatorAvatar: "driver",
