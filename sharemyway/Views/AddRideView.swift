@@ -22,7 +22,7 @@ struct AddRideView: View {
     @State var btnLabel = ""
     @State var title = ""
     @State var driver = ""
-    @State var creatorPhone = "+358"
+    @State var creatorPhone = ""
     @State var startPoint = ""
     @State var destinationPoint = ""
     @State var startPointCoord = CLLocationCoordinate2D(latitude: 60.22378, longitude: 24.75826)
@@ -60,10 +60,12 @@ struct AddRideView: View {
                         Text("Phone num: ")
                             .font(.title3.bold())
                             .multilineTextAlignment(.leading)
-                        iPhoneNumberField("Phone number", text: $creatorPhone)
-                            .flagHidden(false)
-                            .flagSelectable(true)
-                            
+                        iPhoneNumberField(text: $creatorPhone)
+                            .flagHidden(true)
+                            .maximumDigits(11)
+//                            .flagSelectable(true)
+//                            .defaultRegion("Suomi")
+//                            .prefixHidden(true)
                     }
                 }
                 VStack(alignment: .leading) {
