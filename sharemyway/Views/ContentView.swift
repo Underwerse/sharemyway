@@ -11,7 +11,7 @@ import CoreData
 struct ContentView: View {
     
     // Set TabView var for transitions
-//    @State private var tabSelection = 1
+//    @State private var tabSelection = 3
     
     var body: some View {
 //        TabView(selection: $tabSelection) {
@@ -32,8 +32,9 @@ struct ContentView: View {
         }
         .foregroundColor(Color.black)
     }
-    
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
