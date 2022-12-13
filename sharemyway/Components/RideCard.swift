@@ -2,56 +2,74 @@
 //  RideCard.swift
 //  sharemyway
 //
-//  Created by iosdev on 16.11.2022.
+//  Created by Pavel Chernov on 16.11.2022.
 //
 
 import SwiftUI
 
 struct RideCard: View {
-    var ride: RideModel
+    var ride: Ride
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
-                .frame(height: 150)
-                .foregroundColor(Color(hue: 0.635, saturation: 0.143, brightness: 1.0))
+                .frame(height: 230)
+                .foregroundColor(Color("CardBgrColor"))
                 .shadow(color: .gray, radius: 5, x: 5, y: 5)
             HStack(alignment: .top) {
                 HStack(alignment: .top) {
-                    Image(ride.creatorAvatar)
+                    Image(ride.creatorAvatar ?? "avatar")
                         .resizable()
                         .cornerRadius(20)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 30, height: 30)
+                    
                     VStack(alignment: .leading) {
                         HStack(alignment: .top) {
-                            Text("Driver:")
+                            Text("Title:")
                                 .bold()
-                            Text("\(ride.creatorName)")
+                            Text(ride.title!)
                                 
                         }
                         .padding(.bottom, 1)
+                        
+                        HStack(alignment: .top) {
+                            Image(systemName: "person.fill")
+                                .bold()
+                            Text(ride.driver!)
+                                
+                        }
+                        .padding(.bottom, 1)
+                        
+                        HStack(alignment: .top) {
+                            Image(systemName: "phone.bubble.left.fill")
+                            Text(ride.creatorPhone!)
+                                
+                        }
+                        .padding(.bottom, 1)
+                        
                         HStack(alignment: .top) {
                             Text("From:")
                                 .bold()
-                            Text("\(ride.startPoint)")
+                            Text(ride.startPoint!)
                         }
                         .padding(.bottom, 1)
+                        
                         HStack(alignment: .top) {
                             Text("To:")
                                 .bold()
-                            Text("\(ride.finishPoint)")
+                            Text(ride.destinationPoint!)
                         }
                         .padding(.bottom, 1)
+                        
                         HStack {
-                            Text("Description:")
-                                .bold()
-                            Text("\(ride.description)")
+                            Image(systemName: "calendar.badge.clock")
+                            Text(dateToString(date: ride.rideDate!))
                         }
                     }
-                    .padding(.leading)
+                    .padding(.bottom, 1)
                 }
                 .padding(.trailing, -10.0)
-                Spacer()
+//                Spacer()
                 
                 Button {
                     print("like button pressed")
@@ -66,12 +84,22 @@ struct RideCard: View {
             }
             .padding()
         }
+        .foregroundColor(.white)
         .padding(.horizontal)
+    }
+    
+    func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM YY"
+        let strDate = dateFormatter.string(from: date)
+        return strDate
     }
 }
 
 struct RideCard_Previews: PreviewProvider {
+    static var ride: Ride = Ride()
+    
     static var previews: some View {
-        RideCard(ride: rideList[0])
+        RideCard(ride: ride)
     }
 }
